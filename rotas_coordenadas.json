@@ -1,0 +1,132 @@
+{
+  "Rota 1": [
+    {
+      "name": "Rua Mar do Norte",
+      "route": "Rota 1",
+      "lat": -23.411476,
+      "lng": -46.8131811
+    },
+    {
+      "name": "Rua Mar das Flores",
+      "route": "Rota 1",
+      "lat": -23.4116206,
+      "lng": -46.8135459
+    },
+    {
+      "name": "Rua Mar da Irlanda",
+      "route": "Rota 1",
+      "lat": -23.4114979,
+      "lng": -46.8139338
+    },
+    {
+      "name": "Rua Ilha de Bali",
+      "route": "Rota 1",
+      "lat": -22.7949412,
+      "lng": -47.1435402
+    },
+    {
+      "name": "Rua Guaratinga",
+      "route": "Rota 1",
+      "lat": -23.4166505,
+      "lng": -46.8085877
+    },
+    {
+      "name": "Rua Sapucainha",
+      "route": "Rota 1",
+      "lat": -23.4169289,
+      "lng": -46.8082574
+    },
+    {
+      "name": "Rua das Alpinas",
+      "route": "Rota 1",
+      "lat": -23.3970435,
+      "lng": -46.8590348
+    },
+    {
+      "name": "Rua do Cerrado Brasileiro",
+      "route": "Rota 1",
+      "lat": null,
+      "lng": null
+    }
+  ],
+  "Rota 2": [
+    {
+      "name": "Rua do Marajó",
+      "route": "Rota 2",
+      "lat": -23.217621,
+      "lng": -46.8528666
+    },
+    {
+      "name": "Rua Ilhas Britânicas",
+      "route": "Rota 2",
+      "lat": null,
+      "lng": null
+    },
+    {
+      "name": "Rua Albert Jansen",
+      "route": "Rota 2",
+      "lat": -23.4466173,
+      "lng": -46.7892427
+    }
+  ],
+  "Rota 3": [
+    {
+      "name": "Rua Artur de Azevedo",
+      "route": "Rota 3",
+      "lat": -23.5659268,
+      "lng": -46.6872241
+    },
+    {
+      "name": "Alameda Aristoteles Claudio Sbrigh",
+      "route": "Rota 3",
+      "lat": null,
+      "lng": null
+    },
+    {
+      "name": "Rua Ana Maria Franco Laranjeiras",
+      "route": "Rota 3",
+      "lat": null,
+      "lng": null
+    },
+    {
+      "name": "Rua Cleonice Kammer di Sandro",
+      "route": "Rota 3",
+      "lat": -23.4135707,
+      "lng": -46.7379094
+    }
+  ],
+  "Rota 4": [
+    {
+      "name": "Rua Vieira de Brito",
+      "route": "Rota 4",
+      "lat": -23.420364,
+      "lng": -46.7189147
+    },
+    {
+      "name": "Rua Miguel Vilela",
+      "route": "Rota 4",
+      "lat": -23.4199067,
+      "lng": -46.720364
+    }
+  ],
+  "Rota 5": [
+    {
+      "name": "Travessa Cambaratiba",
+      "route": "Rota 5",
+      "lat": -23.4037585,
+      "lng": -46.753973
+    },
+    {
+      "name": "Rua Chamburcy",
+      "route": "Rota 5",
+      "lat": null,
+      "lng": null
+    },
+    {
+      "name": "Travessa Lobito",
+      "route": "Rota 5",
+      "lat": null,
+      "lng": null
+    }
+  ]
+}

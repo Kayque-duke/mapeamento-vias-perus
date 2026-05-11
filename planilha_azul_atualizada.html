@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Sênior - Levantamento Ruas de Terra</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --bg-light: #f8fafc;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            padding: 2rem;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .header-title h1 {
+            font-size: 1.8rem;
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .header-title p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border-left: 5px solid var(--primary);
+        }
+
+        .stat-card.success { border-left-color: var(--success); }
+        .stat-card.danger { border-left-color: var(--danger); }
+
+        .stat-title {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-top: 0.5rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            background: white;
+            color: var(--text-muted);
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .tab-btn.success.active { background: var(--success); }
+        .tab-btn.danger.active { background: var(--danger); }
+
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            overflow-x: auto;
+            display: none;
+        }
+
+        .table-container.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            white-space: nowrap;
+        }
+
+        th, td {
+            padding: 1rem 1.5rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background-color: #f8fafc;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+
+        tr:last-child td { border-bottom: none; }
+        
+        tr:hover { background-color: #f1f5f9; }
+
+        .priority-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .priority-1 { background: #fee2e2; color: #991b1b; }
+        .priority-2 { background: #fef3c7; color: #92400e; }
+        .priority-low { background: #e0f2fe; color: #075985; }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-yes { background: #dcfce7; color: #166534; }
+        .status-no { background: #f1f5f9; color: #475569; }
+
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="header-title">
+            <h1>Levantamento Sênior - Ruas de Terra (Perus)</h1>
+            <p>Dashboard de acompanhamento atualizado com os dados cruzados das fotografias.</p>
+        </div>
+    </div>
+
+    <div class="stats-container">
+        <div class="stat-card">
+            <div class="stat-title">Total Escopo Inicial (Planilha Azul)</div>
+            <div class="stat-value" style="color: var(--primary-dark)">33</div>
+        </div>
+        <div class="stat-card success">
+            <div class="stat-title">Realizadas (Já Fotografadas)</div>
+            <div class="stat-value" style="color: var(--success)">12</div>
+        </div>
+        <div class="stat-card danger">
+            <div class="stat-title">Pendentes (Para Vistoria)</div>
+            <div class="stat-value" style="color: var(--danger)">21</div>
+        </div>
+    </div>
+
+    <div class="tabs">
+        <button class="tab-btn danger active" onclick="showTab('pendentes', this)">🔴 Ruas PENDENTES (Faltam Fotografar)</button>
+        <button class="tab-btn success" onclick="showTab('concluidas', this)">✅ Ruas CONCLUÍDAS (Já Fotografadas)</button>
+    </div>
+
+    <!-- TABELA PENDENTES -->
+    <div id="pendentes" class="table-container active">
+        <table>
+            <thead>
+                <tr>
+                    <th>Subprefeitura</th>
+                    <th>Prioridade</th>
+                    <th>Endereço</th>
+                    <th>Metragem</th>
+                    <th>ZEPAM?</th>
+                    <th>ZPDS?</th>
+                    <th>Aclive/Declive</th>
+                    <th>Drenagem</th>
+                    <th>Observações Importantes</th>
+                </tr>
+            </thead>
+            <tbody id="tbody-pendentes">
+                <!-- Data will be injected here -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- TABELA CONCLUÍDAS -->
+    <div id="concluidas" class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Subprefeitura</th>
+                    <th>Prioridade</th>
+                    <th>Endereço</th>
+                    <th>Metragem</th>
+                    <th>ZEPAM?</th>
+                    <th>ZPDS?</th>
+                    <th>Aclive/Declive</th>
+                    <th>Drenagem</th>
+                    <th>Observações Importantes</th>
+                </tr>
+            </thead>
+            <tbody id="tbody-concluidas">
+                <!-- Data will be injected here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const pendentesData = [
+            { sub: "PERUS", pri: 1, end: "RUA PAULO FREIRE", met: "100", zepam: "NÃO", zpds: "NÃO", acl: "ACLIVE", dren: "NÃO", obs: "TERRA COM FRESA" },
+            { sub: "PERUS", pri: 1, end: "RUA DA SERVIDÃO PUBLICA", met: "180", zepam: "NÃO", zpds: "NÃO", acl: "ACLIVE", dren: "NÃO", obs: "TERRA COM FRESA" },
+            { sub: "PERUS", pri: 2, end: "RUA ZUMBI DOS PALMARES", met: "150", zepam: "NÃO", zpds: "NÃO", acl: "ACLIVE", dren: "NÃO", obs: "TERRA COM FRESA" },
+            { sub: "PERUS", pri: 2, end: "Rua DONA OLIVIA", met: "200", zepam: "NÃO", zpds: "NÃO", acl: "ACLIVE", dren: "NÃO", obs: "TERRA COM FRESA" },
+            { sub: "PERUS", pri: 2, end: "RUA DONA NERCI", met: "terra c/", zepam: "NÃO", zpds: "NÃO", acl: "ACLIVE", dren: "NÃO", obs: "TERRA COM FRESA" },
+            { sub: "PERUS", pri: 2, end: "RUA RONALDO", met: "116,48", zepam: "NÃO", zpds: "NÃO", acl: "ACLIVE", dren: "NÃO", obs: "TERRA COM FRESA" },
+            { sub: "PERUS", pri: 2, end: "Rua 1 - AMEIXA DA MATA", met: "818", zepam: "NÃO", zpds: "NÃO", acl: "ACLIVE", dren: "NÃO", obs: "EM TERRA" },
+            { sub: "PERUS", pri: 2, end: "Rua 2 - ARAÇA DA SERRA", met: "192", zepam: "NÃO", zpds: "NÃO", acl: "ACLIVE", dren: "NÃO", obs: "EM TERRA" },
+            { sub: "PERUS", pri: 2, end: "Rua 3 - BABOSA BRANCA", met: "107", zepam: "NÃO", zpds: "NÃO", acl: "ACLIVE", dren: "NÃO", obs: "EM TERRA" },
+            { sub: "PERUS", pri: 2, end: "Rua 4-8-1 CANEL AMARELA", met: "729", zepam: "NÃO", zpds: "NÃO", acl: "ACLIVE", dren: "NÃO", obs: "EM TERRA" },
+            { sub: "PERUS", pri: 2, end: "Rua 5 - 6 - CEREJA DO MATO", met: "288,5", zepam: "NÃO", zpds: "NÃO", acl: "ACLIVE", dren: "NÃO", obs: "EM TERRA" },
+            { sub: "PERUS", pri: 2, end: "Rua 7 FIGUEIRA BRANCA", met: "408", zepam: "NÃO", zpds: "NÃO", acl: "ACLIVE", dren: "NÃO", obs: "EM TERRA" },
+            { sub: "PERUS", pri: 2, end: "Rua 9 - LOURO CRAVO", met: "44", zepam: "NÃO", zpds: "NÃO", acl: "ACLIVE", dren: "NÃO", obs: "EM TERRA" },
+            { sub: "PERUS", pri: 2, end: "Rua 10 PALMITO JUSSARA", met: "296,5", zepam: "NÃO", zpds: "NÃO", acl: "ACLIVE", dren: "NÃO", obs: "EM TERRA" },
+            { sub: "PERUS", pri: 2, end: "RUA 11 PEROBA AMAREÇA", met: "52", zepam: "NÃO", zpds: "NÃO", acl: "ACLIVE", dren: "NÃO", obs: "EM TERRA" },
+            { sub: "PERUS", pri: 2, end: "Rua 13-14 PESSEGUEIRO BRAVO -", met: "287", zepam: "NÃO", zpds: "NÃO", acl: "ACLIVE", dren: "NÃO", obs: "EM TERRA" },
+            { sub: "PERUS", pri: 2, end: "Rua 15 PINHEIRO AMARICANO", met: "205", zepam: "NÃO", zpds: "NÃO", acl: "ACLIVE", dren: "NÃO", obs: "EM TERRA" },
+            { sub: "PERUS", pri: 4, end: "Rua Cerrado Brasileiro", met: "104", zepam: "NÃO", zpds: "NÃO", acl: "ACLIVE", dren: "NÃO", obs: "TERRA COM FRESA" },
+            { sub: "PERUS", pri: 6, end: "Mar das Flores", met: "86", zepam: "NÃO", zpds: "NÃO", acl: "NÃO", dren: "NÃO", obs: "TERRA COM FRESA" },
+            { sub: "PERUS", pri: 8, end: "Rua Golfo do Alaska", met: "30", zepam: "NÃO", zpds: "NÃO", acl: "ACLIVE", dren: "NÃO", obs: "TERRA COM FRESA" },
+            { sub: "PERUS", pri: 9, end: "Rua Dr. Nilo Cairo", met: "262", zepam: "NÃO", zpds: "NÃO", acl: "ACLIVE", dren: "NÃO", obs: "TERRA COM FRESA" }
+        ];
+
+        const concluidasData = [
+            { sub: "PERUS", pri: 1, end: "RUA ANA MARIA FRANCO LARANJEIRAS", met: "1000", zepam: "SIM", zpds: "SIM", acl: "NÃO", dren: "NÃO", obs: "INTERVENÇÃO SABESP" },
+            { sub: "PERUS", pri: 1, end: "RUA NOEL ROSA", met: "200", zepam: "NÃO", zpds: "NÃO", acl: "ACLIVE", dren: "NÃO", obs: "TERRA COM FRESA" },
+            { sub: "PERUS", pri: 2, end: "RUA CLEONICE KAMMER DI SANDRO", met: "2000", zepam: "SIM", zpds: "NÃO", acl: "NÃO", dren: "NÃO", obs: "INTERVENÇÃO SABESP" },
+            { sub: "PERUS", pri: 2, end: "PADRE JOSINO", met: "1000", zepam: "NÃO", zpds: "NÃO", acl: "ACLIVE", dren: "NÃO", obs: "TERRA COM FRESA" },
+            { sub: "PERUS", pri: 2, end: "RUA SANTO DIAS", met: "50", zepam: "NÃO", zpds: "NÃO", acl: "ACLIVE", dren: "NÃO", obs: "TERRA COM FRESA" },
+            { sub: "PERUS", pri: 2, end: "RUA BETINHO", met: "1000", zepam: "NÃO", zpds: "NÃO", acl: "ACLIVE", dren: "NÃO", obs: "TERRA COM FRESA" },
+            { sub: "PERUS", pri: 3, end: "TRVESSA CAMBARATIBA", met: "800", zepam: "NÃO", zpds: "NÃO", acl: "NÃO", dren: "NÃO", obs: "TERRA COM FRESA" },
+            { sub: "PERUS", pri: 3, end: "Rua das Alpinas", met: "96", zepam: "NÃO", zpds: "NÃO", acl: "ACLIVE", dren: "NÃO", obs: "TERRA COM FRESA" },
+            { sub: "PERUS", pri: 5, end: "Rua Mar do Norte", met: "97", zepam: "NÃO", zpds: "NÃO", acl: "ACLIVE", dren: "NÃO", obs: "TERRA COM FRESA" },
+            { sub: "PERUS", pri: 7, end: "Mar da Irlanda", met: "144", zepam: "NÃO", zpds: "NÃO", acl: "ACLIVE", dren: "NÃO", obs: "TERRA COM FRESA" },
+            { sub: "PERUS", pri: 10, end: "Rua Sapucainha", met: "105", zepam: "NÃO", zpds: "NÃO", acl: "ACLIVE", dren: "NÃO", obs: "TERRA COM FRESA" },
+            { sub: "PERUS", pri: 11, end: "Rua Guaratinga", met: "104", zepam: "NÃO", zpds: "NÃO", acl: "ACLIVE", dren: "NÃO", obs: "TERRA COM FRESA" }
+        ];
+
+        function getPriorityClass(pri) {
+            if (pri === 1) return 'priority-1';
+            if (pri === 2) return 'priority-2';
+            return 'priority-low';
+        }
+
+        function getStatusBadge(val) {
+            if (val.includes("SIM")) return `<span class="status-badge status-yes">${val}</span>`;
+            return `<span class="status-badge status-no">${val}</span>`;
+        }
+
+        function renderTable(data, tbodyId) {
+            const tbody = document.getElementById(tbodyId);
+            tbody.innerHTML = data.map(row => `
+                <tr>
+                    <td><strong>${row.sub}</strong></td>
+                    <td><span class="priority-badge ${getPriorityClass(row.pri)}">${row.pri}</span></td>
+                    <td style="font-weight: 600; color: #0f172a;">${row.end}</td>
+                    <td>${row.met}</td>
+                    <td>${getStatusBadge(row.zepam)}</td>
+                    <td>${getStatusBadge(row.zpds)}</td>
+                    <td>${row.acl}</td>
+                    <td>${row.dren}</td>
+                    <td style="color: #64748b; font-size: 0.875rem;">${row.obs}</td>
+                </tr>
+            `).join('');
+        }
+
+        function showTab(tabId, btn) {
+            document.querySelectorAll('.table-container').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            btn.classList.add('active');
+        }
+
+        // Initialize tables
+        renderTable(pendentesData, 'tbody-pendentes');
+        renderTable(concluidasData, 'tbody-concluidas');
+    </script>
+</body>
+</html>

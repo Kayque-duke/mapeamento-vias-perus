@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Dossiê Técnico — Mobilidade Urbana Perus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0A0A0F;--bg2:#111118;--bg3:#1A1A24;--gold:#C9A84C;--gold-l:#E5D49B;--gold-d:#8B7332;--txt:#F5F5F7;--txt2:#A0A0B0;--txt3:#6B6B80;--red:#D32F2F;--green:#2E7D32;--orange:#E65100;--bdr:rgba(201,168,76,0.15);--bdr2:rgba(201,168,76,0.30);--bdr3:rgba(255,255,255,0.06)}
+*{margin:0;padding:0;box-sizing:border-box}
+@page{size:A4;margin:0}
+body{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;font-family:'Inter',sans-serif;color:var(--txt);background:var(--bg)}
+.page{width:210mm;height:297mm;padding:22mm 24mm;position:relative;page-break-after:always;overflow:hidden;display:flex;flex-direction:column;background:var(--bg)}
+.page:last-child{page-break-after:auto}
+.avoid{page-break-inside:avoid;break-inside:avoid}
+h2{font-family:'Playfair Display',serif;font-size:20pt;font-weight:700;margin-bottom:5mm;color:var(--txt)}
+h3{font-size:12pt;font-weight:700;margin:4mm 0 2mm;color:var(--gold)}
+p,.body{font-size:10.5pt;line-height:1.75;color:var(--txt2)}
+.gold-line{width:60px;height:3px;background:linear-gradient(135deg,#C9A84C,#F0D78C,#C9A84C);border-radius:2px;margin:4mm 0}
+.card{background:var(--bg2);border:1px solid var(--bdr3);border-radius:10px;padding:5mm;margin:3mm 0}
+.card-gold{background:var(--bg2);border:1px solid var(--bdr2);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:5mm;margin:3mm 0}
+table{width:100%;border-collapse:collapse;font-size:9pt;margin:3mm 0}
+thead th{background:var(--bg3);color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:0.1em;font-size:7.5pt;padding:8px 12px;text-align:left;border-bottom:2px solid var(--bdr2)}
+tbody td{padding:8px 12px;border-bottom:1px solid var(--bdr3);color:var(--txt)}
+.tag{display:inline-block;font-size:7pt;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;padding:2px 8px;border-radius:4px;margin-right:4px}
+.tag-red{background:rgba(211,47,47,0.15);color:#EF5350}
+.tag-green{background:rgba(46,125,50,0.15);color:#66BB6A}
+.tag-orange{background:rgba(230,81,0,0.15);color:#FF9800}
+.footer{margin-top:auto;display:flex;justify-content:space-between;padding-top:4mm;border-top:1px solid var(--bdr);font-size:7pt;color:var(--txt3);letter-spacing:0.05em}
+.footer .pg{font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--gold)}
+.num{font-family:'JetBrains Mono',monospace;color:var(--gold);font-weight:600}
+ul{list-style:none;padding:0}
+ul li{position:relative;padding-left:16px;margin-bottom:6px;font-size:10pt;line-height:1.7;color:var(--txt2)}
+ul li::before{content:'';position:absolute;left:0;top:8px;width:5px;height:5px;background:var(--gold);border-radius:50%}
+.cover-deco{position:absolute;top:0;right:0;width:40%;height:100%;background:linear-gradient(180deg,rgba(201,168,76,0.07)0%,transparent 60%);clip-path:polygon(30% 0,100% 0,100% 100%,0% 100%)}
+.cover-line{position:absolute;top:20mm;bottom:20mm;right:20mm;width:2px;background:linear-gradient(180deg,#C9A84C,#F0D78C,#C9A84C)}
+.metric-grid{display:grid;grid-template-columns:1fr 1fr;gap:3mm;margin:3mm 0}
+.metric{background:var(--bg2);border:1px solid var(--bdr3);border-radius:8px;padding:4mm;text-align:center}
+.metric .val{font-family:'Playfair Display',serif;font-size:22pt;font-weight:800}
+.metric .lbl{font-size:7pt;text-transform:uppercase;letter-spacing:0.1em;color:var(--txt3);margin-top:2px}
+.val-red{color:var(--red)}
+.val-green{color:var(--green)}
+.val-gold{color:var(--gold)}
+.section-num{display:inline-flex;width:30px;height:30px;background:var(--bg3);border:1px solid var(--bdr2);border-radius:6px;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:600;font-size:11pt;color:var(--gold);margin-right:3mm;flex-shrink:0}
+.section-header{display:flex;align-items:center;margin-bottom:4mm;padding-bottom:3mm;border-bottom:1px solid var(--bdr)}
+</style>
+</head>
+<body>
+
+<!-- CAPA -->
+<div class="page" style="justify-content:center;padding:30mm 28mm">
+<div class="cover-deco"></div>
+<div class="cover-line"></div>
+<div style="position:relative;z-index:1">
+<p style="font-size:8pt;font-weight:700;text-transform:uppercase;letter-spacing:0.2em;color:var(--gold);margin-bottom:6mm">Dossiê Técnico de Engenharia de Tráfego</p>
+<div class="gold-line"></div>
+<h1 style="font-family:'Playfair Display',serif;font-size:38pt;font-weight:900;line-height:1.15;margin:6mm 0;letter-spacing:-0.02em">Mobilidade Urbana<br>Distrito de Perus</h1>
+<p style="font-size:12pt;color:var(--txt2);line-height:1.8;max-width:75%;margin-bottom:10mm">Diagnóstico dos gargalos viários, análise crítica da Proposta nº 3351 (Participemais SP, 2022) e projeto de solução integrada com passagem inferior sob os trilhos da CPTM.</p>
+<div style="display:flex;gap:5mm;margin-bottom:15mm">
+<div class="metric" style="flex:1;text-align:left;padding:4mm 5mm">
+<div class="val val-red" style="font-size:18pt">45–60 min</div>
+<div class="lbl">Tempo atual de pico (800m)</div>
+</div>
+<div class="metric" style="flex:1;text-align:left;padding:4mm 5mm">
+<div class="val val-green" style="font-size:18pt">10–15 min</div>
+<div class="lbl">Tempo projetado pós-obra</div>
+</div>
+</div>
+<div style="border-top:1px solid var(--bdr);padding-top:5mm">
+<p style="font-size:9pt;color:var(--txt3)">Subprefeitura de Perus — Coordenadoria de Projetos e Obras</p>
+<p style="font-size:9pt;color:var(--txt3)">São Paulo, maio de 2026</p>
+</div>
+</div>
+</div>
+
+<!-- PÁGINA 2: DIAGNÓSTICO -->
+<div class="page">
+<div class="section-header"><span class="section-num">01</span><h2>Diagnóstico da Situação Atual</h2></div>
+<p class="body" style="margin-bottom:4mm">O distrito de Perus possui uma configuração viária singular: a linha ferroviária da CPTM (Linha 7-Rubi) corta o bairro ao meio, criando uma barreira física que divide a região em Perus Velho (sul) e Perus Novo (norte). Atualmente, existem apenas duas formas de cruzar essa barreira — o Viaduto Central (por cima) e as passagens de nível com cancela (no nível). Ambas operam em colapso nos horários de pico.</p>
+
+<h3>1.1 Os Cinco Gargalos Identificados</h3>
+<table>
+<thead><tr><th>Eixo Viário</th><th>Fluxo Livre</th><th>Horário de Pico</th><th>Causa Raiz</th></tr></thead>
+<tbody>
+<tr><td><strong>Viaduto Central</strong> (Dona Mora / Ulysses Guimarães)</td><td class="num">3–5 min</td><td style="color:#EF5350;font-weight:700">45–60 min</td><td>Colapso V/C — 100% do fluxo interbairros concentrado</td></tr>
+<tr><td><strong>Cancelas CPTM</strong> (Praça Inácio Dias)</td><td class="num">2 min</td><td style="color:#EF5350;font-weight:700">30–40 min</td><td>Interrupção absoluta — trens a cada 3–6 min</td></tr>
+<tr><td><strong>Av. Raimundo P. de Magalhães</strong></td><td class="num">30 min</td><td style="color:#EF5350;font-weight:700">1h30–2h</td><td>Falta de hierarquia viária — velocidade média de 12 km/h</td></tr>
+<tr><td><strong>Rodoanel Mário Covas</strong> (km 00)</td><td class="num">10–15 min</td><td style="color:#66BB6A;font-weight:700">10–15 min</td><td>Fuga de pedágio — R$ 3,50 afasta moradores</td></tr>
+<tr><td><strong>Carrossel CET</strong> (ruas locais)</td><td class="num">1 min</td><td style="color:#FF9800;font-weight:700">15–20 min</td><td>Tortuosidade extrema — ruas de 6 m como funis</td></tr>
+</tbody>
+</table>
+
+<h3>1.2 Métricas de Impacto</h3>
+<div class="metric-grid">
+<div class="metric"><div class="val val-red">800 m</div><div class="lbl">Distância do viaduto que leva 1 hora</div></div>
+<div class="metric"><div class="val val-red">2,50</div><div class="lbl">Relação Volume/Capacidade (crítico acima de 1,0)</div></div>
+<div class="metric"><div class="val val-red">12 km/h</div><div class="lbl">Velocidade média na Av. Raimundo (pico)</div></div>
+<div class="metric"><div class="val val-gold">LOS F</div><div class="lbl">Nível de Serviço — Colapso total</div></div>
+</div>
+
+<div class="card-gold" style="margin-top:4mm">
+<p style="font-size:10pt;line-height:1.7;color:var(--txt2)"><strong style="color:var(--gold)">Conclusão técnica:</strong> O viaduto concentra 100% da matriz de viagens entre as duas metades do bairro. As esquinas nas pontas do tabuleiro não suportam o raio de giro dos ônibus articulados da SPTrans (18 metros). Cada manobra de ônibus bloqueia as duas faixas simultaneamente, gerando ondas de choque que se propagam por toda a malha local.</p>
+</div>
+<div class="footer"><span>Dossiê Técnico — Mobilidade Urbana Perus</span><span class="pg">02</span></div>
+</div>
+
+<!-- PÁGINA 3: PROPOSTA 3351 -->
+<div class="page">
+<div class="section-header"><span class="section-num">02</span><h2>Análise da Proposta nº 3351</h2></div>
+<div class="card" style="margin-bottom:4mm">
+<p style="font-size:9pt;color:var(--txt3);margin-bottom:2mm">REGISTRO OFICIAL — PARTICIPEMAIS SP</p>
+<p class="body"><strong>Proponente:</strong> Willams Fernandes da Silva &nbsp;|&nbsp; <strong>Data:</strong> 20 de outubro de 2022</p>
+<p class="body"><strong>Proposta:</strong> Construir um acesso direto saindo do Viaduto Ulisses Guimarães para a Rua Padre Manoel Campello, permitindo a macro-segregação modal — ônibus pelo viaduto, carros pela nova rampa.</p>
+</div>
+
+<h3>2.1 Pontos Fortes</h3>
+<ul>
+<li><strong>Diagnóstico preciso:</strong> o autor identificou corretamente que o viaduto é o único elo entre Perus Velho e Perus Novo — uma vulnerabilidade crítica.</li>
+<li><strong>Macro-segregação modal:</strong> separar ônibus de carros é a abordagem tecnicamente correta para aumentar a capacidade efetiva sem alargar o viaduto.</li>
+<li><strong>Custo acessível:</strong> uma rampa de saída (off-ramp) de aproximadamente 150 metros custaria entre R$ 5 e R$ 12 milhões — cerca de 10% de um viaduto novo.</li>
+<li><strong>Origem comunitária:</strong> a legitimidade popular via plataforma oficial fortalece o argumento político.</li>
+</ul>
+
+<h3>2.2 Limitações Críticas</h3>
+<table>
+<thead><tr><th>Limitação</th><th>Impacto</th><th>Gravidade</th></tr></thead>
+<tbody>
+<tr><td>R. Padre M. Campello possui apenas <span class="num">6 m</span> de largura</td><td>Via receptora insuficiente — cria novo gargalo 200 m adiante</td><td><span class="tag tag-red">CRÍTICA</span></td></tr>
+<tr><td>Não resolve as cancelas da CPTM</td><td>30–40% do congestionamento permanece inalterado</td><td><span class="tag tag-red">CRÍTICA</span></td></tr>
+<tr><td>Não endereça a fuga de pedágio do Rodoanel</td><td>Tráfego exógeno de Franco da Rocha/Caieiras continua saturando Perus</td><td><span class="tag tag-orange">ALTA</span></td></tr>
+<tr><td>Rampa acoplada ao viaduto existente</td><td>Exige laudo estrutural e possível reforço de pilares</td><td><span class="tag tag-orange">ALTA</span></td></tr>
+<tr><td>Sem corredor de escoamento na base</td><td>A rampa termina em rua sem capacidade — fila se forma adiante</td><td><span class="tag tag-orange">ALTA</span></td></tr>
+</tbody>
+</table>
+
+<div class="card-gold" style="margin-top:4mm">
+<p style="font-size:10pt;line-height:1.7;color:var(--txt2)"><strong style="color:var(--gold)">Avaliação técnica: 6,5 / 10.</strong> A Proposta 3351 identifica corretamente a doença (monopolização do acesso) e propõe o remédio adequado (macro-segregação), porém a dose é insuficiente: a rua receptora não comporta o fluxo transferido, e os outros dois gargalos fatais — cancelas e fuga de pedágio — permanecem sem solução.</p>
+</div>
+<div class="footer"><span>Dossiê Técnico — Mobilidade Urbana Perus</span><span class="pg">03</span></div>
+</div>
+
+<!-- PÁGINA 4: SOLUÇÃO INTEGRADA -->
+<div class="page">
+<div class="section-header"><span class="section-num">03</span><h2>Solução Integrada Proposta</h2></div>
+<p class="body" style="margin-bottom:4mm">A pergunta-chave não é <em>"como melhorar o viaduto?"</em>, mas sim: <strong>"como criar uma segunda travessia dos trilhos que não dependa do viaduto e não seja bloqueada por trens?"</strong> A resposta da engenharia: passar por baixo — uma passagem inferior (mergulhão).</p>
+
+<h3>3.1 Fase 1 — Gestão Imediata (6 meses | R$ 2–5 milhões)</h3>
+<ul>
+<li>Sincronização semafórica na Av. Raimundo Pereira de Magalhães (onda verde a 40 km/h).</li>
+<li>Implantação de binário direcional nas ruas do carrossel CET (R. Padre Campello + R. Antônio Maia).</li>
+<li>Sinalização inteligente incentivando o uso do Rodoanel antes da entrada em Perus.</li>
+<li>Remoção de lombadas desnecessárias e recapeamento nos trechos críticos.</li>
+</ul>
+
+<h3>3.2 Fase 2 — Passagem Inferior / Mergulhão (18 meses | R$ 25–45 milhões)</h3>
+<p class="body" style="margin-bottom:3mm">Construção de túnel raso sob os trilhos da CPTM, próximo à Praça Inácio Dias, com as seguintes especificações:</p>
+<table>
+<thead><tr><th>Parâmetro</th><th>Especificação</th><th>Referência Normativa</th></tr></thead>
+<tbody>
+<tr><td>Gabarito vertical interno</td><td class="num">4,50 m</td><td>DNIT — Manual de Projeto Geométrico</td></tr>
+<tr><td>Largura interna</td><td class="num">7,00 m</td><td>2 faixas de 3,50 m</td></tr>
+<tr><td>Comprimento do túnel</td><td class="num">30–50 m</td><td>Largura da faixa ferroviária + margens</td></tr>
+<tr><td>Rampas de acesso</td><td class="num">100 m</td><td>Inclinação máxima de 6% (DNIT)</td></tr>
+<tr><td>Cobertura sobre a laje</td><td class="num">≥ 1,50 m</td><td>Norma CPTM / ABNT</td></tr>
+<tr><td>Comprimento total da obra</td><td class="num">~250 m</td><td>Rampas + túnel</td></tr>
+<tr><td>Método construtivo</td><td>Cut and cover</td><td>Sem interrupção da CPTM</td></tr>
+<tr><td>Sistema de drenagem</td><td>Bombeamento permanente</td><td>Obrigatório — ponto baixo acumula água</td></tr>
+</tbody>
+</table>
+
+<h3>3.3 Fase 3 — Negociação Tarifária (Articulação Política)</h3>
+<ul>
+<li>Articulação Prefeitura + Governo do Estado + ARTESP pela isenção ou subsídio do pedágio do Rodoanel (Trecho Oeste, Praça Raimundo Magalhães) para veículos leves de moradores.</li>
+<li>Argumento central: o custo social do congestionamento gerado pela fuga de pedágio (estimado em R$ 35.000 a R$ 56.000 por dia) equivale ou supera a receita do pedágio.</li>
+</ul>
+<div class="footer"><span>Dossiê Técnico — Mobilidade Urbana Perus</span><span class="pg">04</span></div>
+</div>
+
+<!-- PÁGINA 5: COMPARATIVO + CONCLUSÃO -->
+<div class="page">
+<div class="section-header"><span class="section-num">04</span><h2>Análise Comparativa e Conclusão</h2></div>
+
+<h3>4.1 Comparativo: Proposta 3351 vs. Solução Integrada</h3>
+<table>
+<thead><tr><th>Critério</th><th>Proposta 3351 (Rampa)</th><th>Solução Integrada (Mergulhão)</th></tr></thead>
+<tbody>
+<tr><td>Resolve saturação do viaduto?</td><td><span class="tag tag-orange">Parcial (~30%)</span></td><td><span class="tag tag-green">Sim (~50%)</span></td></tr>
+<tr><td>Resolve cancelas da CPTM?</td><td><span class="tag tag-red">Não</span></td><td><span class="tag tag-green">Sim (passa por baixo)</span></td></tr>
+<tr><td>Resolve fuga de pedágio?</td><td><span class="tag tag-red">Não</span></td><td><span class="tag tag-orange">Parcial (gestão + lobby)</span></td></tr>
+<tr><td>Depende do viaduto existente?</td><td><span class="tag tag-orange">Sim (acoplada)</span></td><td><span class="tag tag-green">Não (independente)</span></td></tr>
+<tr><td>Funciona durante passagem de trem?</td><td><span class="tag tag-red">Não</span></td><td><span class="tag tag-green">Sim (24 horas)</span></td></tr>
+<tr><td>Custo total estimado</td><td class="num">R$ 5–12 milhões</td><td class="num">R$ 27–50 milhões</td></tr>
+<tr><td>Redução total do congestionamento</td><td style="color:#FF9800;font-weight:700">30–40%</td><td style="color:#66BB6A;font-weight:700">70–80%</td></tr>
+<tr><td>Avaliação técnica</td><td class="num">6,5 / 10</td><td class="num" style="color:#66BB6A">9,0 / 10</td></tr>
+</tbody>
+</table>
+
+<h3>4.2 Efeito Cascata: O Viaduto Melhora Sem Custo Adicional</h3>
+<div class="metric-grid">
+<div class="metric" style="border:1px solid rgba(211,47,47,0.3)">
+<p style="font-size:7pt;text-transform:uppercase;letter-spacing:0.1em;color:var(--txt3)">Cenário Atual — Viaduto</p>
+<div class="val val-red" style="font-size:18pt">V/C = 2,50</div>
+<div class="lbl">Nível de Serviço F (Colapso)</div>
+</div>
+<div class="metric" style="border:1px solid rgba(46,125,50,0.3)">
+<p style="font-size:7pt;text-transform:uppercase;letter-spacing:0.1em;color:var(--txt3)">Após Mergulhão — Viaduto</p>
+<div class="val val-green" style="font-size:18pt">V/C = 1,38</div>
+<div class="lbl">Nível de Serviço D (Funcional)</div>
+</div>
+</div>
+<p class="body" style="margin:3mm 0">Com o mergulhão absorvendo aproximadamente 45% da demanda (veículos leves), o viaduto passa a operar em nível funcional sem necessidade de intervenção estrutural. A demanda se redistribui naturalmente — o motorista escolhe a rota mais rápida.</p>
+
+<h3>4.3 Conclusão</h3>
+<div class="card-gold">
+<p style="font-size:10.5pt;line-height:1.8;color:var(--txt2)">A Proposta nº 3351 de 2022 representou um marco importante ao formalizar, pela voz da comunidade, o diagnóstico correto do problema central de Perus: a monopolização do acesso interbairros por uma única estrutura viária. A presente análise técnica demonstra que essa proposta, embora conceitualmente sólida, necessita de complementação para atingir eficácia plena.</p>
+<p style="font-size:10.5pt;line-height:1.8;color:var(--txt2);margin-top:3mm">A solução integrada aqui proposta — ancorada em uma <strong style="color:var(--txt)">passagem inferior independente sob os trilhos da CPTM</strong> — resolve simultaneamente os três gargalos não endereçados pela proposta original: elimina a dependência das cancelas ferroviárias, independe da estrutura do viaduto existente e, combinada com gestão de tráfego e articulação tarifária, pode reduzir o congestionamento no eixo central de Perus em até <strong style="color:var(--gold)">70–80%</strong>.</p>
+<p style="font-size:10.5pt;line-height:1.8;color:var(--txt2);margin-top:3mm">O tempo de travessia projetado para os 800 metros do eixo central cairia de <strong style="color:var(--red)">45–60 minutos</strong> para <strong style="color:var(--green)">10–15 minutos</strong>, devolvendo qualidade de vida a dezenas de milhares de moradores.</p>
+</div>
+<div class="footer"><span>Dossiê Técnico — Mobilidade Urbana Perus</span><span class="pg">05</span></div>
+</div>
+
+</body>
+</html>

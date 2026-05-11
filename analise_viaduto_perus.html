@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dossiê Viaduto Perus: Simulador de Mobilidade</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Leaflet Core -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Leaflet Draw Plugin -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+
+    <style>
+        :root {
+            --bg-primary:       #0f1117;
+            --bg-secondary:     #1a1d27;
+            --bg-tertiary:      #242836;
+            --bg-card:          #1e2230;
+
+            --accent-primary:   #3b82f6;
+            --accent-secondary: #22d3ee;
+            --accent-success:   #10b981;
+            --accent-warning:   #f59e0b;
+            --accent-danger:    #ef4444;
+            --accent-gradient:  linear-gradient(135deg, #3b82f6 0%, #22d3ee 100%);
+
+            --text-primary:     #f1f5f9;
+            --text-secondary:   #94a3b8;
+            --text-muted:       #64748b;
+
+            --border-subtle:    rgba(59, 130, 246, 0.15);
+            --border-medium:    rgba(59, 130, 246, 0.30);
+
+            --glass-bg:         rgba(30, 34, 48, 0.80);
+            --glass-border:     rgba(255, 255, 255, 0.08);
+            --glass-blur:       blur(20px);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        h1, h2, h3 { font-family: 'Outfit', sans-serif; }
+
+        /* Header */
+        header {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            background: var(--accent-gradient);
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .logo-text h1 {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-text span {
+            font-size: 12px;
+            color: var(--accent-secondary);
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Main Container */
+        main {
+            display: flex;
+            flex: 1;
+            height: calc(100vh - 69px);
+        }
+
+        /* Map Section */
+        #map-container {
+            flex: 1;
+            position: relative;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-secondary);
+        }
+
+        /* Toolbar Customizada */
+        .custom-toolbar {
+            position: absolute;
+            top: 20px;
+            left: 50px;
+            z-index: 1000;
+            display: flex;
+            gap: 10px;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            padding: 8px;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .tool-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-medium);
+            color: var(--text-primary);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tool-btn:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .tool-btn.active-red {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: var(--accent-danger);
+            color: #fca5a5;
+        }
+
+        .tool-btn.active-green {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: var(--accent-success);
+            color: #6ee7b7;
+        }
+
+        .dot-red {
+            width: 10px; height: 10px; border-radius: 50%; background: var(--accent-danger);
+        }
+        .dot-green {
+            width: 10px; height: 10px; border-radius: 50%; background: var(--accent-success);
+        }
+
+        /* Dashboard lateral */
+        #dashboard {
+            width: 400px;
+            background: var(--bg-secondary);
+            border-left: 1px solid var(--border-medium);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .dash-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-medium);
+        }
+
+        .dash-header h2 {
+            font-size: 18px;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .dash-header p {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        /* Cards Comparativos */
+        .card-container {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .metric-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-medium);
+            border-radius: 12px;
+            padding: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-card.danger { border-left: 4px solid var(--accent-danger); }
+        .metric-card.success { border-left: 4px solid var(--accent-success); }
+
+        .card-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .danger .card-title { color: var(--accent-danger); }
+        .success .card-title { color: var(--accent-success); }
+
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 8px;
+        }
+
+        .metric-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .metric-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* Painel de Economia / Conclusão */
+        .conclusion-panel {
+            margin: 0 20px 20px 20px;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(34, 211, 238, 0.1) 100%);
+            border: 1px solid var(--border-medium);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .conclusion-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--accent-secondary);
+            margin-bottom: 8px;
+        }
+
+        .conclusion-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .conclusion-sub {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* Controles de Variáveis */
+        .variables-panel {
+            padding: 20px;
+            border-top: 1px solid var(--border-medium);
+            margin-top: auto;
+        }
+        
+        .variables-panel h3 {
+            font-size: 14px;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .input-group {
+            margin-bottom: 12px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+
+        .input-group input {
+            width: 100%;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-medium);
+            color: var(--text-primary);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <div class="logo-icon">GE</div>
+            <div class="logo-text">
+                <h1>Dossiê Perus</h1>
+                <span>Análise Estrutural de Gargalo Viário</span>
+            </div>
+        </div>
+        <div>
+            <button class="tool-btn" onclick="clearMap()">Limpar Mapa</button>
+        </div>
+    </header>
+
+    <main>
+        <div id="map-container">
+            <div class="custom-toolbar">
+                <button id="btn-draw-red" class="tool-btn" onclick="startDrawing('red')">
+                    <div class="dot-red"></div>
+                    Traçar Rota Atual (Viaduto)
+                </button>
+                <button id="btn-draw-green" class="tool-btn" onclick="startDrawing('green')">
+                    <div class="dot-green"></div>
+                    Traçar Solução (Novo Acesso)
+                </button>
+            </div>
+            <div id="map"></div>
+        </div>
+
+        <div id="dashboard">
+            <div class="dash-header">
+                <h2>Análise de Roteamento</h2>
+                <p>Estação de Perus ↔ Rodoanel</p>
+            </div>
+
+            <div class="card-container">
+                <!-- Rota Vermelha (Atual) -->
+                <div class="metric-card danger">
+                    <div class="card-title">Situação Atual (O Gargalo)</div>
+                    
+                    <div class="metric-row">
+                        <span class="metric-label">Distância (Km)</span>
+                        <span class="metric-value" id="dist-red">0.00</span>
+                    </div>
+                    
+                    <div class="metric-row">
+                        <span class="metric-label">Tempo no Pico (min)</span>
+                        <span class="metric-value" id="time-red">0</span>
+                    </div>
+                </div>
+
+                <!-- Rota Verde (Proposta) -->
+                <div class="metric-card success">
+                    <div class="card-title">Projeto Alternativo (A Solução)</div>
+                    
+                    <div class="metric-row">
+                        <span class="metric-label">Distância (Km)</span>
+                        <span class="metric-value" id="dist-green">0.00</span>
+                    </div>
+                    
+                    <div class="metric-row">
+                        <span class="metric-label">Tempo Estimado (min)</span>
+                        <span class="metric-value" id="time-green">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conclusão -->
+            <div class="conclusion-panel">
+                <div class="conclusion-title">Impacto da Solução</div>
+                <div class="conclusion-value" id="economy-time">- 0 min</div>
+                <div class="conclusion-sub">Economia estimada por viagem</div>
+            </div>
+
+            <!-- Variáveis de Cálculo -->
+            <div class="variables-panel">
+                <h3>Variáveis Matemáticas do Tráfego</h3>
+                <div class="input-group">
+                    <label>Velocidade Média no Viaduto (Km/h) - Horário de Pico</label>
+                    <input type="number" id="vel-red" value="12" onchange="recalculate()">
+                </div>
+                <div class="input-group">
+                    <label>Velocidade Média Nova Rota (Km/h) - Fluxo Livre</label>
+                    <input type="number" id="vel-green" value="40" onchange="recalculate()">
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // Inicialização do Mapa
+        // Coordenadas aproximadas da Estação de Perus
+        const perusLat = -23.4005;
+        const perusLng = -46.7513;
+
+        const map = L.map('map').setView([perusLat, perusLng], 15);
+
+        // Tile layer dark mode (CartoDB Dark Matter)
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+            subdomains: 'abcd',
+            maxZoom: 20
+        }).addTo(map);
+
+        // Variáveis globais
+        let currentDrawMode = null; // 'red' ou 'green'
+        let currentPolyline = null; // A linha sendo desenhada agora
+        let currentPoints = [];     // Pontos da linha atual
+        
+        const routes = {
+            red: { layer: null, distance: 0, speedInput: 'vel-red' },
+            green: { layer: null, distance: 0, speedInput: 'vel-green' }
+        };
+
+        // Layers para guardar as linhas desenhadas
+        const featureGroup = L.featureGroup().addTo(map);
+
+        // Função de Haversine para cálculo de distância precisa na Terra
+        function haversineDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371; // Raio da Terra em km
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon/2) * Math.sin(dLon/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c; 
+        }
+
+        // Calcular distância total de um array de coordenadas (Leaflet LatLng)
+        function calculateTotalDistance(latlngs) {
+            let total = 0;
+            for (let i = 0; i < latlngs.length - 1; i++) {
+                total += haversineDistance(
+                    latlngs[i].lat, latlngs[i].lng,
+                    latlngs[i+1].lat, latlngs[i+1].lng
+                );
+            }
+            return total;
+        }
+
+        // Ativar modo de desenho manual
+        function startDrawing(colorMode) {
+            // Resetar estado de desenho se já estiver desenhando
+            if (currentPolyline) {
+                map.removeLayer(currentPolyline);
+            }
+            
+            currentDrawMode = colorMode;
+            currentPoints = [];
+            
+            // Atualizar botões visuais
+            document.getElementById('btn-draw-red').classList.remove('active-red');
+            document.getElementById('btn-draw-green').classList.remove('active-green');
+            
+            if (colorMode === 'red') {
+                document.getElementById('btn-draw-red').classList.add('active-red');
+            } else {
+                document.getElementById('btn-draw-green').classList.add('active-green');
+            }
+
+            // Mudar cursor
+            document.getElementById('map').style.cursor = 'crosshair';
+        }
+
+        // Escutador de cliques no mapa para construir a rota
+        map.on('click', function(e) {
+            if (!currentDrawMode) return;
+
+            const latlng = e.latlng;
+            currentPoints.push(latlng);
+
+            // Cores e estilos baseados no modo
+            const lineColor = currentDrawMode === 'red' ? '#ef4444' : '#10b981';
+            const weight = 6;
+
+            // Se for o primeiro ponto, cria o marcador inicial
+            if (currentPoints.length === 1) {
+                L.circleMarker(latlng, {
+                    radius: 6,
+                    fillColor: lineColor,
+                    color: '#fff',
+                    weight: 2,
+                    fillOpacity: 1
+                }).addTo(featureGroup);
+            }
+
+            // Atualiza a polyline
+            if (currentPolyline) {
+                map.removeLayer(currentPolyline);
+            }
+            
+            currentPolyline = L.polyline(currentPoints, {
+                color: lineColor,
+                weight: weight,
+                opacity: 0.8,
+                dashArray: currentDrawMode === 'red' ? null : '5, 10' // Tracejado para nova rota
+            }).addTo(map);
+
+            // Atualizar métricas em tempo real
+            updateMetrics(currentDrawMode, currentPoints);
+        });
+
+        // Duplo clique finaliza a rota atual
+        map.on('dblclick', function(e) {
+            if (!currentDrawMode || currentPoints.length < 2) return;
+            
+            // Impedir o zoom in padrão do leaflet no duplo clique
+            L.DomEvent.stopPropagation(e);
+
+            // Salva a rota no objeto global
+            if (routes[currentDrawMode].layer) {
+                featureGroup.removeLayer(routes[currentDrawMode].layer);
+            }
+            
+            routes[currentDrawMode].layer = currentPolyline;
+            featureGroup.addLayer(currentPolyline);
+            
+            // Adiciona marcador final
+            L.circleMarker(currentPoints[currentPoints.length - 1], {
+                radius: 6,
+                fillColor: currentDrawMode === 'red' ? '#ef4444' : '#10b981',
+                color: '#fff',
+                weight: 2,
+                fillOpacity: 1
+            }).addTo(featureGroup);
+
+            // Reseta modo
+            currentPolyline = null;
+            currentDrawMode = null;
+            document.getElementById('map').style.cursor = 'grab';
+            document.getElementById('btn-draw-red').classList.remove('active-red');
+            document.getElementById('btn-draw-green').classList.remove('active-green');
+            
+            recalculate();
+        });
+
+        // Atualizar painel de métricas
+        function updateMetrics(mode, points) {
+            const dist = calculateTotalDistance(points);
+            routes[mode].distance = dist;
+            
+            document.getElementById(`dist-${mode}`).innerText = dist.toFixed(2);
+            recalculate();
+        }
+
+        // Recalcular tempos e economia baseado nas variáveis
+        function recalculate() {
+            // Red (Atual)
+            const speedRed = parseFloat(document.getElementById('vel-red').value) || 12; // km/h
+            const distRed = routes.red.distance; // km
+            const timeRedH = distRed / speedRed; // horas
+            const timeRedMin = Math.round(timeRedH * 60); // minutos
+            
+            document.getElementById('time-red').innerText = timeRedMin;
+
+            // Green (Solução)
+            const speedGreen = parseFloat(document.getElementById('vel-green').value) || 40;
+            const distGreen = routes.green.distance;
+            const timeGreenH = distGreen / speedGreen;
+            const timeGreenMin = Math.round(timeGreenH * 60);
+            
+            document.getElementById('time-green').innerText = timeGreenMin;
+
+            // Diferença/Economia
+            const economy = timeRedMin - timeGreenMin;
+            const economyEl = document.getElementById('economy-time');
+            
+            if (distRed > 0 && distGreen > 0) {
+                if (economy > 0) {
+                    economyEl.innerText = `${economy} min`;
+                    economyEl.style.color = 'var(--accent-success)';
+                } else {
+                    economyEl.innerText = `${economy} min`;
+                    economyEl.style.color = 'var(--accent-danger)';
+                }
+            } else {
+                economyEl.innerText = '- 0 min';
+                economyEl.style.color = 'var(--text-primary)';
+            }
+        }
+
+        function clearMap() {
+            featureGroup.clearLayers();
+            if(currentPolyline) map.removeLayer(currentPolyline);
+            
+            routes.red.layer = null;
+            routes.red.distance = 0;
+            routes.green.layer = null;
+            routes.green.distance = 0;
+            currentDrawMode = null;
+            currentPoints = [];
+            currentPolyline = null;
+            
+            document.getElementById('dist-red').innerText = '0.00';
+            document.getElementById('time-red').innerText = '0';
+            document.getElementById('dist-green').innerText = '0.00';
+            document.getElementById('time-green').innerText = '0';
+            document.getElementById('economy-time').innerText = '- 0 min';
+            document.getElementById('economy-time').style.color = 'var(--text-primary)';
+            
+            document.getElementById('btn-draw-red').classList.remove('active-red');
+            document.getElementById('btn-draw-green').classList.remove('active-green');
+            document.getElementById('map').style.cursor = 'grab';
+        }
+
+        // Prevenir duplo clique de dar zoom
+        map.doubleClickZoom.disable();
+
+    </script>
+</body>
+</html>

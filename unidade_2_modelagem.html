@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unidade 2 – Visualização do Mundo em Equações</title>
+  
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;0,900;1,400&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* === RESET & VARIABLES === */
+    :root {
+      /* === FUNDOS === */
+      --bg-primary:       #0A0A0F;      /* Preto profundo principal */
+      --bg-secondary:     #111118;      /* Preto secundário para cards */
+      --bg-tertiary:      #1A1A24;      /* Preto terciário para destaques suaves */
+      --bg-accent-subtle: #14141F;      /* Background para seções alternadas */
+
+      /* === DOURADO / OURO — A cor que define LUXO === */
+      --gold-primary:   #C9A84C;        /* Dourado principal — elegante, não brega */
+      --gold-light:     #E5D49B;        /* Dourado claro para textos em fundo escuro */
+      --gold-dark:      #8B7332;        /* Dourado escuro para bordas e detalhes */
+      --gold-gradient:  linear-gradient(135deg, #C9A84C 0%, #F0D78C 50%, #C9A84C 100%);
+
+      /* === TEXTOS === */
+      --text-primary:   #F5F5F7;        /* Branco suave para corpo de texto */
+      --text-secondary: #A0A0B0;        /* Cinza prateado para texto secundário */
+      --text-muted:     #6B6B80;        /* Cinza para rodapés e legendas */
+
+      /* === BORDAS E SEPARADORES === */
+      --border-subtle:  rgba(201, 168, 76, 0.15);  /* Borda dourada sutil */
+      --border-medium:  rgba(201, 168, 76, 0.30);  /* Borda dourada média */
+      --border-strong:  rgba(201, 168, 76, 0.60);  /* Borda dourada forte */
+      --border-neutral: rgba(255, 255, 255, 0.06); /* Borda neutra quase invisível */
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background-color: #555; /* for viewing in browser */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* === PAGE SETUP === */
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    .page {
+      width: 210mm;
+      height: 297mm;
+      padding: 22mm 24mm;
+      position: relative;
+      box-sizing: border-box;
+      page-break-after: always;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      margin: 10px auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5); /* just for browser preview */
+    }
+
+    .page:last-child {
+      page-break-after: auto;
+    }
+
+    /* Remove preview styles for print */
+    @media print {
+      body { background-color: white; }
+      .page { margin: 0; box-shadow: none; }
+    }
+
+    .avoid-break {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    /* === TYPOGRAPHY === */
+    h1, h2, h3, h4, h5, h6 { margin: 0; }
+    
+    p {
+      line-height: 1.75;
+      font-size: 10.5pt;
+      margin-bottom: 6mm;
+      color: var(--text-primary);
+    }
+
+    strong { font-weight: 700; color: var(--gold-light); }
+    em { font-style: italic; color: var(--text-secondary); }
+
+    /* === CAPA === */
+    .cover-page {
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background-image: 
+        linear-gradient(30deg, rgba(201,168,76,0.03) 12%, transparent 12.5%),
+        linear-gradient(150deg, rgba(201,168,76,0.03) 12%, transparent 12.5%),
+        linear-gradient(210deg, rgba(201,168,76,0.03) 12%, transparent 12.5%),
+        linear-gradient(330deg, rgba(201,168,76,0.03) 12%, transparent 12.5%);
+      background-size: 80px 140px;
+    }
+
+    .cover-decoration {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 40%;
+      height: 100%;
+      background: linear-gradient(180deg, rgba(201,168,76,0.08) 0%, transparent 60%);
+      clip-path: polygon(30% 0, 100% 0, 100% 100%, 0% 100%);
+      z-index: 1;
+    }
+
+    .cover-border-accent {
+      position: absolute;
+      top: 20mm;
+      bottom: 20mm;
+      right: 20mm;
+      width: 2px;
+      background: var(--gold-gradient);
+      z-index: 2;
+    }
+    
+    .cover-border-accent-left {
+      position: absolute;
+      top: 20mm;
+      bottom: 20mm;
+      left: 20mm;
+      width: 2px;
+      background: var(--gold-gradient);
+      z-index: 2;
+    }
+
+    .cover-content {
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15mm;
+    }
+
+    .cover-tag {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 10pt;
+      letter-spacing: 0.15em;
+      color: var(--gold-primary);
+      text-transform: uppercase;
+    }
+
+    .cover-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: 48pt;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      text-transform: uppercase;
+      max-width: 80%;
+    }
+
+    .cover-line {
+      width: 80px;
+      height: 3px;
+      background: var(--gold-gradient);
+      border-radius: 2px;
+    }
+
+    /* === INTERNAS === */
+    .page-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 4mm;
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: 8mm;
+    }
+
+    .page-header .section-number {
+      width: 36px;
+      height: 36px;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-medium);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      font-size: 12pt;
+      color: var(--gold-primary);
+    }
+
+    .page-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 20pt;
+      color: var(--text-primary);
+    }
+
+    h3 {
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 14pt;
+      color: var(--gold-light);
+      margin-top: 6mm;
+      margin-bottom: 3mm;
+    }
+
+    .page-footer {
+      margin-top: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 4mm;
+      border-top: 1px solid var(--border-subtle);
+      font-size: 7pt;
+      color: var(--text-muted);
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+    }
+
+    .page-footer .page-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      color: var(--gold-primary);
+    }
+
+    /* === COMPONENTES === */
+    .content-card-gold {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-medium);
+      border-left: 3px solid var(--gold-primary);
+      border-radius: 0 12px 12px 0;
+      padding: 6mm;
+      margin-bottom: 6mm;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+    
+    .content-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-neutral);
+      border-radius: 12px;
+      padding: 6mm;
+      margin-bottom: 6mm;
+    }
+
+    .content-card-critical {
+      background: linear-gradient(135deg, rgba(139,26,26,0.15) 0%, var(--bg-secondary) 100%);
+      border: 1px solid rgba(139,26,26,0.3);
+      border-radius: 12px;
+      padding: 6mm;
+      margin-bottom: 6mm;
+    }
+
+    .legal-quote {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 12pt;
+      line-height: 1.8;
+      color: var(--gold-light);
+      padding: 5mm 6mm;
+      border-left: 3px solid var(--gold-primary);
+      background: rgba(201,168,76,0.05);
+      border-radius: 0 8px 8px 0;
+      margin: 5mm 0;
+    }
+
+    .custom-list {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 6mm;
+    }
+
+    .custom-list li {
+      position: relative;
+      padding-left: 20px;
+      margin-bottom: 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 10.5pt;
+      line-height: 1.7;
+      color: var(--text-primary);
+    }
+
+    .custom-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 8px;
+      width: 6px;
+      height: 6px;
+      background: var(--gold-primary);
+      border-radius: 50%;
+    }
+
+    .premium-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'Inter', sans-serif;
+      font-size: 9.5pt;
+      margin-bottom: 6mm;
+      background: var(--bg-secondary);
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border-neutral);
+    }
+
+    .premium-table thead th {
+      background: var(--bg-tertiary);
+      color: var(--gold-primary);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 7.5pt;
+      padding: 10px 14px;
+      text-align: left;
+      border-bottom: 2px solid var(--border-medium);
+    }
+
+    .premium-table tbody td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border-neutral);
+      color: var(--text-primary);
+    }
+
+    .premium-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .math-block {
+      text-align: center;
+      margin: 6mm 0;
+      font-size: 14pt;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PAGE 1: CAPA -->
+  <div class="page cover-page">
+    <div class="cover-decoration"></div>
+    <div class="cover-border-accent"></div>
+    <div class="cover-border-accent-left"></div>
+
+    <div class="cover-content">
+      <div class="cover-tag">Material de Estudo</div>
+      <h1 class="cover-title">Unidade 2</h1>
+      <div class="cover-line"></div>
+      <h2 style="font-family: 'Playfair Display', serif; font-weight: 400; font-style: italic; font-size: 24pt; color: var(--gold-light);">Visualização do Mundo em Equações</h2>
+    </div>
+  </div>
+
+  <!-- PAGE 2 -->
+  <div class="page">
+    <div class="page-header">
+      <div class="section-number">01</div>
+      <h2>A Essência da Engenharia</h2>
+    </div>
+
+    <p>A essência da engenharia não é apenas observar o mundo, mas prever o seu comportamento. Para projetar estruturas seguras ou sistemas eficientes sem precisar construir e testar cada variação no mundo físico, precisamos "traduzir" a realidade empírica para a matemática. Fazemos isso convertendo dados brutos em equações preditivas.</p>
+
+    <div class="content-card-gold" style="margin-top: 10mm;">
+      <h3 style="margin-top:0;">As Quatro Linguagens da Modelagem</h3>
+      <p style="margin-bottom: 4mm;">Um fenômeno físico real pode (e deve) ser descrito em quatro linguagens diferentes. A fluência do engenheiro consiste em transitar entre elas sem perder informação.</p>
+      
+      <ul class="custom-list" style="margin-bottom:0;">
+        <li><strong>Linguagem Verbal (O Conceito):</strong> A descrição qualitativa do fenômeno. <br><em style="font-size:9.5pt;">Exemplo: "A deformação elástica sofrida por uma viga de aço é diretamente proporcional à força aplicada sobre ela."</em></li>
+        <li><strong>Linguagem Numérica (Os Dados):</strong> A coleta de informações brutas através de medições ou ensaios, geralmente organizadas em tabelas. <br><em style="font-size:9.5pt;">Exemplo: Uma tabela mostrando que 1000 N geram 2 mm de deflexão, e 2000 N geram 4 mm.</em></li>
+        <li><strong>Linguagem Gráfica (A Visualização):</strong> O plot dos dados numéricos em um plano cartesiano. A intuição geométrica nasce aqui. Visualizar uma reta ascendente imediatamente nos diz que há uma proporção linear.</li>
+        <li><strong>Linguagem Algébrica (A Equação):</strong> A síntese final. Transformamos a geometria do gráfico em uma fórmula, como a Lei de Hooke:
+          <div class="math-block">$$F = k \cdot x$$</div>
+          <em style="font-size:9.5pt;">(onde \(F\) é a força, \(x\) é a deformação e \(k\) é a constante de rigidez da viga).</em>
+        </li>
+      </ul>
+    </div>
+
+    <div class="page-footer">
+      <span>UNIDADE 2 — MODELAGEM EMPÍRICA</span>
+      <span class="page-num">01</span>
+    </div>
+  </div>
+
+  <!-- PAGE 3 -->
+  <div class="page">
+    <div class="page-header">
+      <div class="section-number">02</div>
+      <h2>Variáveis e Passos da Modelagem</h2>
+    </div>
+
+    <h3>Relações de Causa e Efeito (Variáveis)</h3>
+    <p>Todo modelo matemático tenta descrever como uma "causa" gera um "efeito". Formalizamos isso dividindo o mundo em variáveis, expressas pela notação de função \(y = f(x)\).</p>
+
+    <ul class="custom-list">
+      <li><strong>Variável Independente (\(x\) - A Causa):</strong> É a variável que você controla no experimento ou que evolui de forma autônoma (como o tempo). Por convenção, é sempre alocada no eixo horizontal (abscissas) do gráfico.</li>
+      <li><strong>Variável Dependente (\(y\) - O Efeito):</strong> É a variável que responde às mudanças da causa. É o que o seu modelo quer prever. É alocada no eixo vertical (ordenadas).</li>
+    </ul>
+
+    <div class="legal-quote" style="margin-bottom: 8mm;">
+      Nota Prática: Se você está dimensionando a sapata de uma fundação, a carga aplicada pelo pilar (variável independente) causa o recalque do solo (variável dependente). Inverter essa relação no modelo não faz sentido físico.
+    </div>
+
+    <h3>Modelagem Elementar a partir de Dados Experimentais</h3>
+    <p>Na prática, as fórmulas dos livros nasceram de experimentos de bancada. O ciclo de modelagem empírica que você utilizará em laboratório segue 4 passos lógicos:</p>
+
+    <div class="content-card">
+      <ol class="custom-list" style="margin-bottom:0;">
+        <li><strong>Coleta e Tabulação:</strong> Realizar o ensaio físico e anotar os pares de dados \((x, y)\).</li>
+        <li><strong>Dispersão (Scatter Plot):</strong> Inserir os pontos em um gráfico. Aqui você não liga os pontos, apenas observa a "nuvem" gerada.</li>
+        <li><strong>Identificação de Tendência:</strong> Analisar a geometria. A nuvem de pontos se parece com uma reta? Uma curva suave (exponencial)? Uma parábola (polinômio)?</li>
+        <li><strong>Ajuste Matemático:</strong> Determinar a equação da linha teórica que passa o mais perto possível de todos os pontos reais medidos.</li>
+      </ol>
+    </div>
+
+    <div class="page-footer">
+      <span>UNIDADE 2 — MODELAGEM EMPÍRICA</span>
+      <span class="page-num">02</span>
+    </div>
+  </div>
+
+  <!-- PAGE 4 -->
+  <div class="page">
+    <div class="page-header">
+      <div class="section-number">03</div>
+      <h2>Caderno de Exercícios Práticos</h2>
+    </div>
+
+    <div class="content-card avoid-break">
+      <h3 style="margin-top:0;">Exercício 1: O Ensaio de Compressão (Engenharia Civil)</h3>
+      <p>Em um laboratório de materiais, você está testando um corpo de prova de concreto para avaliar sua deformação sob carga. Você aumenta gradativamente a tensão aplicada e mede a deformação resultante usando um extensômetro. Os dados obtidos foram:</p>
+      
+      <table class="premium-table">
+        <thead>
+          <tr>
+            <th>Tensão Aplicada (MPa)</th>
+            <th>Deformação (mm/m)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>5</td><td>0.15</td></tr>
+          <tr><td>10</td><td>0.30</td></tr>
+          <tr><td>15</td><td>0.45</td></tr>
+          <tr><td>20</td><td>0.60</td></tr>
+        </tbody>
+      </table>
+
+      <p style="margin-bottom:0;"><strong>a)</strong> Identifique qual é a variável independente e qual é a dependente neste fenômeno físico, e explique o porquê.<br>
+      <strong>b)</strong> Qual é o comportamento geométrico esperado ao plotar esses dados em um gráfico?<br>
+      <strong>c)</strong> Deduza, a partir da tabela, a equação algébrica simples que modela esse sistema na forma \(\text{Deformação} = C \cdot \text{Tensão}\), encontrando o valor da constante \(C\).</p>
+    </div>
+
+    <div class="content-card avoid-break">
+      <h3 style="margin-top:0;">Exercício 2: Modelagem de Dinâmica Veicular</h3>
+      <p>Imagine que você está analisando dados de teste de frenagem de um sedã esportivo (como um Audi A5). O teste mede a distância total necessária para o carro parar completamente, dependendo da velocidade em que ele estava no momento em que o freio foi acionado.</p>
+      
+      <table class="premium-table">
+        <thead>
+          <tr>
+            <th>Velocidade Inicial (km/h)</th>
+            <th>Distância de Frenagem (m)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>40</td><td>10</td></tr>
+          <tr><td>80</td><td>40</td></tr>
+          <tr><td>120</td><td>90</td></tr>
+        </tbody>
+      </table>
+
+      <p style="margin-bottom:0;"><strong>a)</strong> Qual é a variável de causa e qual é a variável de efeito?<br>
+      <strong>b)</strong> Olhando para os dados numéricos, se a velocidade dobra (de 40 para 80), o que acontece com a distância de frenagem? <br>
+      <strong>c)</strong> O comportamento desse fenômeno é linear? Justifique.</p>
+    </div>
+
+    <div class="page-footer">
+      <span>UNIDADE 2 — MODELAGEM EMPÍRICA</span>
+      <span class="page-num">03</span>
+    </div>
+  </div>
+
+  <!-- PAGE 5 -->
+  <div class="page">
+    <div class="page-header">
+      <div class="section-number">04</div>
+      <h2>Conclusão e Síntese</h2>
+    </div>
+
+    <div class="content-card avoid-break" style="margin-bottom: 12mm;">
+      <h3 style="margin-top:0;">Exercício 3: Fixação de Conceito (Método Feynman)</h3>
+      <p><em>Instrução: Escreva a sua resposta para este exercício usando suas próprias palavras.</em></p>
+      <p style="margin-bottom:0;">Imagine que um colega de turma está confuso na hora de montar o gráfico de um ensaio de tração do aço e não sabe onde colocar o eixo da Força e onde colocar o eixo da Deformação. Usando uma analogia simples do dia a dia, explique para ele o conceito de Variável Independente e Variável Dependente para que ele nunca mais inverta os eixos.</p>
+    </div>
+
+    <div class="content-card-gold avoid-break" style="box-shadow: 0 0 40px rgba(201,168,76,0.08);">
+      <h3 style="margin-top:0; text-align: center; text-transform: uppercase; font-size: 12pt; letter-spacing: 0.1em; color: var(--text-primary);">Mini-Resumo da Unidade 2</h3>
+      <div class="cover-line" style="margin: 3mm auto 6mm auto;"></div>
+      
+      <ul class="custom-list" style="margin-bottom:0;">
+        <li><strong>4 Linguagens:</strong> Modelar é traduzir a realidade de Texto \(\rightarrow\) Tabela \(\rightarrow\) Gráfico \(\rightarrow\) Equação.</li>
+        <li><strong>Estrutura da Função:</strong> A causa é a variável independente (eixo \(x\)), o efeito é a variável dependente (eixo \(y\)).</li>
+        <li><strong>Modelagem Empírica:</strong> Equações de engenharia nascem do reconhecimento de padrões geométricos em dados reais extraídos de laboratório ou campo.</li>
+      </ul>
+    </div>
+
+    <div class="page-footer">
+      <span>UNIDADE 2 — MODELAGEM EMPÍRICA</span>
+      <span class="page-num">04</span>
+    </div>
+  </div>
+
+</body>
+</html>

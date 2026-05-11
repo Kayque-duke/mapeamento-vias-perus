@@ -1,0 +1,120 @@
+### Ruas Mapeadas (92)
+
+- Rua Vinhedo
+- Rua Carlos Maringuela
+- Rua Olga Benário
+- Rua Betinho
+- Rua Santos Dias
+- Rua Fortaleza
+- Rua Padre Josino
+- Rua Kenda
+- Rua São Paulo
+- Rua Índia
+- Rua Gênesis
+- Rua Monte Sinai
+- Rua Francisco Bellazzi
+- Rua Onze
+- Rua Noel Rosa
+- Rua Carlos Lamarca
+- Rua Ilha da Vitória
+- Rua Nova Vida
+- Rua Nova Canaã
+- Rua Mil Grau
+- Rua Morais
+- Rua Esperança
+- Travessa Cambaratiba
+- Rua Albert Jansen
+- Rua Ilhas Britânicas
+- Rua Argélia
+- Rua Ilha do Frade
+- Avenida Felippo Sturba
+- Estrada de Pirapora
+- Rua Educador
+- Rua Nova Vida
+- Rua Morais
+- Rua Ilha Vítoria
+- Rua ilhas Britânicas
+- Rua Albert Jansen
+- Tv. Cambaratiba
+- Rua Vinhedo
+- Rua Olga Benário
+- Rua Betinho
+- Rua Santo Dias
+- Rua Fortaleza
+- Rua Padre Josino
+- Rua Kenda
+- Rua São Paulo
+- Rua Índia
+- Rua Gênesis
+- Rua Monte Sinai
+- Rua Francisco Bellazzi
+- Rua Onze
+- Rua Noel Rosa
+- Rua Carlos Lamarca
+- Rua Elis Regina
+- Rua Esperança
+- Rua Mar da Irlanda
+- Alameda Aristoteles Claudio Sbrighi - Anhanguera
+- Rua Maria de Fátima Alves
+- Rua Miguel Viléla
+- Rua Vieira de Brito
+- Rua Ana Maria Franco Laranjeira
+- Rua Cleonice Kammer Di Sandro
+- Rua das Alpinas
+- Rua Guarantinga
+- Rua Sapucainha
+- Rua Mar do Norte
+- Rua Vitória
+- Rua Carlos Marighella
+- Rua Nova Canaã
+- Nova Rua (Editar Nome)
+- Rua Artur de Azevedo
+- Nova Rua (Editar Nome)
+- MAC ATÉ CAMPELO
+- Nova Rua (Editar Nome)
+- Mac até Praça
+- Praça até Raimundo
+- Raimundo até Anhaguera
+- Anhaguera 1 até Anhaguera 2
+- Est.de Perus até Russo
+- Russo até Sylvio
+- Est.de Ligação 1 até 2
+- Est. de Ligação 2 até 3
+- Est. de Ligação 3  até 4
+- Est.de Ligação 4 até 5
+- Est. de Ligação 5 até Est. de Perus
+- Rua Jose LOPES ( Rua da Servidão Pública )
+- Rua Dona Nerci
+- Rua Dona Olivia
+- Rua Zumbi dos Palmares
+- Rua Mar das Flores
+- Nova Rua (Editar Nome)
+- Rua Paulo Freire
+- Rua Cerrado Brasileiro
+- Rua Ronaldo
+
+### Pinos Adicionados (23)
+
+- Rua ilha de Bali
+- Rua ilha de Bali
+- Rua ilha de Bali
+- Rua ilha de Bali
+- Rua ilha de Bali
+- Mac
+- Campelo
+- Rua Mogeiro
+- Mac 2
+- Praça
+- Raimundo
+- Anhaguera 2
+- Est.Perus 2
+- Av. Sylvio
+- Av. Sylvio 2
+- Anhaguera
+- Est. Perus
+- Est. de Ligação
+- Est. de Ligação
+- Est. de Ligação
+- Est. de Ligação
+- Est. de Ligação
+- Campello até Sylvio de Campos

@@ -1,0 +1,71 @@
+LAUDO TÉCNICO DE ENGENHARIA VIÁRIA
+Mitigação do Gargalo do Eixo Perus-Rodoanel
+Projeto de Intervenção: Proposta 3351
+
+---
+
+1. RESUMO EXECUTIVO
+
+O presente dossiê demonstra, através de métricas de capacidade viária e geometria urbana, a falência operacional do eixo de transposição central de Perus (Viaduto Dona Mora Guimarães / Dep. Ulysses Guimarães) e seus acessos. O documento prova a ineficiência das atuais rotas de fuga e apresenta o projeto definitivo de segregação de frotas (nova alça de acesso viário) para reestabelecer a mobilidade e o desenvolvimento econômico da região.
+
+---
+
+2. O DIAGNÓSTICO: A FALÊNCIA MÚLTIPLA DOS ACESSOS ATUAIS
+
+2.1. O Efeito "Fuga de Pedágio" e o Transbordo Metropolitano
+
+A saturação viária de Perus não é de geração estritamente local. Devido à matriz tarifária do Rodoanel Mário Covas, milhares de condutores de Caieiras e Franco da Rocha realizam o "desvio de pedágio", canalizando o fluxo intermunicipal massivamente para a Avenida Raimundo Pereira de Magalhães.
+
+A via, possuindo características arteriais de baixa capacidade, entra em colapso, gerando um tráfego de "stop-and-go" que paralisa a entrada do distrito antes mesmo do acesso ao viaduto principal.
+
+[COLE AQUI A IMAGEM 1: O MAPA DE CALOR DO RODOANEL/AVENIDA]
+Legenda - Figura 1: Saturação crônica provocada pelo transbordo metropolitano no eixo principal.
+
+2.2. A Severância Urbana da Linha 7-Rubi (O "Gridlock" da Cancela)
+
+As alternativas em nível são neutralizadas pela barreira imposta pela ferrovia da CPTM. O traçado superficial gera a severância do tecido urbano. 
+
+Com os históricos passivos de sinalização ferroviária, as passagens de nível operam com margens de segurança superdimensionadas. As cancelas permanecem abaixadas por períodos que zeram a capacidade viária, e quando abrem, a largura das ruas não oferece taxa de descarga suficiente para dissipar a fila antes do próximo trem.
+
+[COLE AQUI A IMAGEM 2: A FOTO DA CANCELA FECHADA COM TRÂNSITO]
+Legenda - Figura 2: Interrupção absoluta de fluxo e represamento geométrico na passagem de nível da CPTM.
+
+2.3. A Maquiagem Viária: O Falso "Carrossel" da CET
+
+As intervenções de micro-mobilidade implementadas para não paralisar as vias coletoras resultaram em um aumento artificial das distâncias. Ao proibir a conversão à esquerda no acesso ao viaduto e forçar mãos únicas (Ruas Joaquim de Sousa, João José de Godói e João Batista Fanton), a CET criou uma "rota em carrossel".
+
+Essa medida não resolve o gargalo; ela apenas distribui as filas de espera pelos quarteirões residenciais internos, aumentando o Índice de Tortuosidade e o consumo de combustível da frota.
+
+[COLE AQUI A IMAGEM 3: O MAPA DO LABIRINTO/CARROSSEL DA CET]
+Legenda - Figura 3: Índice de Tortuosidade extremo forçado pelo esquema de laços de quadra unilaterais.
+
+2.4. A Saturação do Tabuleiro: O Viaduto em Nível de Serviço F
+
+A transposição operada pelo viaduto central concentra 100% da matriz de deslocamento entre o eixo Perus Velho e Perus Novo. A fricção lateral causada por travessias, paradas irregulares e o ângulo de conversão para veículos pesados reduz a capacidade geométrica (c) da via. Atualmente, o volume de tráfego (vt) excede a capacidade estrutural, fixando a operação diariamente em Nível de Serviço F (colapso de fluxo).
+
+---
+
+3. A SOLUÇÃO DE ENGENHARIA: REENGENHARIA E SEGREGAÇÃO (PROPOSTA 3351)
+
+Investimentos milionários recentes em laudos estruturais (SIURB) apenas impediram o colapso físico do viaduto, mas não atacaram o estrangulamento de fluxo. A única resolução técnica sustentável é a segregação macroestrutural dos modais.
+
+3.1. O Novo Eixo Desviador
+
+Em alinhamento com os estudos técnicos consubstanciados na Proposta 3351, a solução exige a construção de uma nova alça de acesso acoplada/paralela.
+
+Fluxo Pesado e Público: O eixo da Rua Antônio Maia e o corpo original do viaduto serão dedicados exclusivamente à aceleração de veículos pesados e transporte público em massa (sistema pseudo-BRT), eliminando a fricção marginal atual.
+
+Fluxo Leve e Interbairros: Veículos de passeio e micromobilidade serão desviados preventivamente, escoando por um novo ramo direto para o eixo perimetral da Rua Padre Manoel Campello.
+
+A separação instantânea dessas naturezas de tráfego eleva o Nível de Serviço de "F" para "C", reduzindo o tempo de viagem em mais de 70% e resgatando a atratividade econômica do entorno.
+
+[COLE AQUI A IMAGEM 4: O DESENHO VERDE DA NOVA ALÇA NO GOOGLE EARTH]
+Legenda - Figura 4: Macro-segregação proposta - Separação estrutural entre transporte em massa e frota de passeio.
+
+---
+
+4. CONCLUSÃO E ENCAMINHAMENTO
+
+A engenharia de trânsito provou que micro-intervenções (semáforos e tintas) atingiram seu limite físico em Perus. A estagnação atual configura prejuízo diário milionário em hora-homem e logística. 
+
+Requer-se, em caráter de urgência, a aprovação de viabilidade técnica e orçamentária (via FUNDURB) para a formulação do projeto executivo da nova alça de transposição do Eixo Perus.

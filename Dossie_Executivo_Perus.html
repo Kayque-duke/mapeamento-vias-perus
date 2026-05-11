@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dossiê Técnico - Viaduto Perus</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f1f5f9;
+            --paper-color: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --accent: #0f172a;
+        }
+        body {
+            background-color: var(--bg-color);
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .controls {
+            margin-bottom: 20px;
+            width: 210mm;
+            display: flex;
+            justify-content: flex-end;
+        }
+        button {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(59, 130, 246, 0.2);
+            transition: background 0.2s;
+        }
+        button:hover { background-color: #2563eb; }
+        .page {
+            background-color: var(--paper-color);
+            width: 210mm; /* A4 width */
+            min-height: 297mm; /* A4 height */
+            padding: 25mm 25mm;
+            box-sizing: border-box;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 28px;
+            font-weight: 900;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 15px;
+            margin-bottom: 40px;
+        }
+        h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 20px;
+            color: var(--accent);
+            margin-top: 30px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 8px;
+        }
+        h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            color: #334155;
+            margin-top: 25px;
+        }
+        p {
+            font-size: 14px;
+            line-height: 1.6;
+            text-align: justify;
+            margin-bottom: 15px;
+        }
+        .image-upload-container {
+            width: 100%;
+            height: 350px;
+            background-color: #f8fafc;
+            border: 2px dashed #cbd5e1;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+        .image-upload-container:hover {
+            border-color: #3b82f6;
+            background-color: #f0fdf4;
+        }
+        .upload-text {
+            color: #64748b;
+            font-weight: 600;
+            font-family: 'Outfit', sans-serif;
+            font-size: 18px;
+        }
+        .upload-subtext {
+            color: #94a3b8;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+        .uploaded-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border: 1px solid #cbd5e1;
+            display: none;
+        }
+        .caption {
+            text-align: center;
+            font-style: italic;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: -10px;
+            margin-bottom: 30px;
+        }
+        input[type="file"] {
+            display: none;
+        }
+
+        /* Ocultar botões na impressão */
+        @media print {
+            body { background: white; padding: 0; }
+            .controls { display: none; }
+            .page { box-shadow: none; margin: 0; padding: 15mm; width: auto; height: auto; }
+            .image-upload-container { border: none !important; background: transparent !important; }
+            .upload-text, .upload-subtext { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="controls">
+        <button onclick="window.print()">🖨️ Salvar como PDF / Imprimir</button>
+    </div>
+
+    <div class="page">
+        <h1>Laudo Técnico de Engenharia Viária</h1>
+        
+        <h2>1. RESUMO EXECUTIVO</h2>
+        <p>O presente dossiê demonstra, através de métricas de capacidade viária e geometria urbana, a falência operacional do eixo de transposição central de Perus (Viaduto Dona Mora Guimarães) e seus acessos adjacentes. O documento prova a ineficiência das atuais rotas de fuga paliativas e apresenta a solução definitiva de engenharia de tráfego: a segregação de frotas através de uma nova alça de acesso viário (Proposta 3351), essencial para reestabelecer a mobilidade, mitigar os impactos da severância urbana e impulsionar o desenvolvimento econômico da região.</p>
+
+        <h2>2. O DIAGNÓSTICO: A FALÊNCIA MÚLTIPLA DOS ACESSOS</h2>
+        
+        <h3>2.1. O Efeito "Fuga de Pedágio" e a Saturação (Nível de Serviço F)</h3>
+        <p>A saturação viária de Perus não é de geração estritamente local. Devido à matriz tarifária do Rodoanel Mário Covas, ocorre um intenso transbordo metropolitano. Milhares de condutores realizam o desvio sistêmico, canalizando o fluxo intermunicipal massivamente para a Avenida Raimundo Pereira de Magalhães. A infraestrutura atual opera muito além de sua capacidade projetada, gerando um Nível de Serviço F (Fluxo Forçado) nos horários de pico.</p>
+
+        <!-- CAIXA IMAGEM 1 -->
+        <label class="image-upload-container">
+            <input type="file" accept="image/*" onchange="loadImage(event, 'img1', this)">
+            <span class="upload-text">📸 Clique aqui para inserir a IMAGEM 1</span>
+            <span class="upload-subtext">(Mapa de Calor do Google Maps)</span>
+            <img id="img1" class="uploaded-image">
+        </label>
+        <div class="caption">Figura 1: Mapa de calor evidenciando o gargalo operacional e a saturação da via de aproximação.</div>
+
+        <h3>2.2. Severância Urbana e o Conflito de Nível (CPTM)</h3>
+        <p>A transposição do viaduto não resolveu a interação conflituosa na malha inferior. A passagem de nível da Linha 7-Rubi da CPTM cria uma barreira física temporária (cancela) que interrompe o fluxo viário local repetidas vezes por hora. Este represamento gera filas que retroalimentam o congestionamento do próprio viaduto, paralisando tanto o transporte público quanto os veículos leves.</p>
+
+        <!-- CAIXA IMAGEM 2 -->
+        <label class="image-upload-container">
+            <input type="file" accept="image/*" onchange="loadImage(event, 'img2', this)">
+            <span class="upload-text">📸 Clique aqui para inserir a IMAGEM 2</span>
+            <span class="upload-subtext">(Foto da Cancela / Street View)</span>
+            <img id="img2" class="uploaded-image">
+        </label>
+        <div class="caption">Figura 2: Conflito geométrico e severância urbana gerada pela passagem de nível da CPTM.</div>
+
+        <div style="page-break-before: always;"></div> <!-- Quebra de página para impressão -->
+
+        <h3>2.3. O Falso Carrossel e o Índice de Tortuosidade</h3>
+        <p>Na tentativa de escoar o tráfego, o órgão regulador (CET) implementou medidas paliativas de circulação em mão única (Rua Joaquim de Sousa e João Batista Fanton). A geometria resultante exige que os condutores realizem laços (U-turns) de grande extensão para percorrer distâncias mínimas, elevando drasticamente o "Índice de Tortuosidade". A solução aumentou o Tempo de Retardo ao invés de suprimi-lo.</p>
+
+        <!-- CAIXA IMAGEM 3 -->
+        <label class="image-upload-container">
+            <input type="file" accept="image/*" onchange="loadImage(event, 'img3', this)">
+            <span class="upload-text">📸 Clique aqui para inserir a IMAGEM 3</span>
+            <span class="upload-subtext">(Traçado do Google Maps provando o labirinto)</span>
+            <img id="img3" class="uploaded-image">
+        </label>
+        <div class="caption">Figura 3: Traçado ilustrando o elevado Índice de Tortuosidade das rotas paliativas atuais.</div>
+
+        <h2>3. A SOLUÇÃO: MACRO-SEGREGAÇÃO (PROPOSTA 3351)</h2>
+        <p>A literatura de engenharia de tráfego é clara: gargalos estruturais não são resolvidos com semáforos ou mudança de sentido de vias, mas com segregação de frotas. A Proposta 3351 consiste na implementação de uma nova alça de acesso direcional (aproximadamente 462 metros de extensão) derivando do eixo do viaduto atual e conectando-se diretamente à Rua Padre Manoel Campello. Esta intervenção desviará os veículos leves (carros e motos), deixando o viaduto atual como um corredor de altíssima eficiência para o transporte público coletivo (Corredor SPTrans) e veículos de carga pesada.</p>
+
+        <!-- CAIXA IMAGEM 4 -->
+        <label class="image-upload-container" style="height: 400px;">
+            <input type="file" accept="image/*" onchange="loadImage(event, 'img4', this)">
+            <span class="upload-text">📸 Clique aqui para inserir a IMAGEM 4</span>
+            <span class="upload-subtext">(Traçado no Google Earth da Nova Alça)</span>
+            <img id="img4" class="uploaded-image">
+        </label>
+        <div class="caption">Figura 4: Estudo de Traçado Preliminar da Proposta 3351 (Extensão: ~462m).</div>
+
+        <p style="margin-top: 40px; border-top: 1px solid #e2e8f0; padding-top: 20px; font-weight: 600; text-align: right;">
+            São Paulo, 07 de Maio de 2026.<br>
+            Equipe de Engenharia e Planejamento Urbano
+        </p>
+
+    </div>
+
+    <script>
+        function loadImage(event, imgId, container) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imgElement = document.getElementById(imgId);
+                    imgElement.src = e.target.result;
+                    imgElement.style.display = 'block';
+                    
+                    // Esconder os textos de aviso da caixa
+                    const texts = container.querySelectorAll('span');
+                    texts.forEach(text => text.style.display = 'none');
+                    
+                    // Tirar a borda tracejada
+                    container.style.border = 'none';
+                    container.style.backgroundColor = 'transparent';
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+</body>
+</html>

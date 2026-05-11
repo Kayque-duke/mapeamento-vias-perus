@@ -1,0 +1,114 @@
+[
+  {
+    "id": 15,
+    "nome": "Rua Francisco Bellazzi",
+    "largura_anterior": 6.0,
+    "largura_nova": 6.0,
+    "fonte": "SEM DADOS — mantém valor atual"
+  },
+  {
+    "id": 16,
+    "nome": "Avenida Felippo Sturba",
+    "largura_anterior": 7.0,
+    "largura_nova": 7.0,
+    "fonte": "Estimado (tipo: residential)"
+  },
+  {
+    "id": 17,
+    "nome": "Rua Onze",
+    "largura_anterior": 4.0,
+    "largura_nova": 7.0,
+    "fonte": "Estimado (tipo: residential)"
+  },
+  {
+    "id": 18,
+    "nome": "Estrada de Pirapora",
+    "largura_anterior": 8.0,
+    "largura_nova": 7.0,
+    "fonte": "Estimado (tipo: residential)"
+  },
+  {
+    "id": 19,
+    "nome": "Rua Educador",
+    "largura_anterior": 6.0,
+    "largura_nova": 6.0,
+    "fonte": "SEM DADOS — mantém valor atual"
+  },
+  {
+    "id": 20,
+    "nome": "Rua Noel Rosa",
+    "largura_anterior": 6.0,
+    "largura_nova": 6.0,
+    "fonte": "SEM DADOS — mantém valor atual"
+  },
+  {
+    "id": 21,
+    "nome": "Rua Carlos Lamarca",
+    "largura_anterior": 6.0,
+    "largura_nova": 6.0,
+    "fonte": "SEM DADOS — mantém valor atual"
+  },
+  {
+    "id": 22,
+    "nome": "Rua Ilha da Vitória",
+    "largura_anterior": 6.0,
+    "largura_nova": 7.0,
+    "fonte": "Estimado (Nominatim tipo: residential)"
+  },
+  {
+    "id": 23,
+    "nome": "Rua Nova Vida",
+    "largura_anterior": 6.0,
+    "largura_nova": 6.0,
+    "fonte": "SEM DADOS — mantém valor atual"
+  },
+  {
+    "id": 24,
+    "nome": "Rua Nova Canaã",
+    "largura_anterior": 6.0,
+    "largura_nova": 6.0,
+    "fonte": "SEM DADOS — mantém valor atual"
+  },
+  {
+    "id": 25,
+    "nome": "Rua Mil Grau",
+    "largura_anterior": 6.0,
+    "largura_nova": 6.0,
+    "fonte": "SEM DADOS — mantém valor atual"
+  },
+  {
+    "id": 26,
+    "nome": "Rua Morais",
+    "largura_anterior": 6.0,
+    "largura_nova": 6.0,
+    "fonte": "SEM DADOS — mantém valor atual"
+  },
+  {
+    "id": 27,
+    "nome": "Rua Esperança",
+    "largura_anterior": 6.0,
+    "largura_nova": 6.0,
+    "fonte": "SEM DADOS — mantém valor atual"
+  },
+  {
+    "id": 28,
+    "nome": "Travessa Cambaratiba",
+    "largura_anterior": 5.0,
+    "largura_nova": 7.0,
+    "fonte": "Estimado (Nominatim tipo: residential)"
+  },
+  {
+    "id": 29,
+    "nome": "Rua Albert Jansen",
+    "largura_anterior": 7.0,
+    "largura_nova": 7.0,
+    "fonte": "SEM DADOS — mantém valor atual"
+  },
+  {
+    "id": 30,
+    "nome": "Rua Ilhas Britânicas",
+    "largura_anterior": 6.0,
+    "largura_nova": 6.0,
+    "fonte": "SEM DADOS — mantém valor atual"
+  }
+]

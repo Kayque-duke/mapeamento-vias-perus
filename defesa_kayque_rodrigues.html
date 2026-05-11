@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Documento de Defesa — Kayque Rodrigues da Silva</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;0,900;1,400&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+--bg-primary:#0A0A0F;--bg-secondary:#111118;--bg-tertiary:#1A1A24;--bg-accent:#14141F;
+--gold:#C9A84C;--gold-light:#E5D49B;--gold-dark:#8B7332;
+--text:#F5F5F7;--text2:#A0A0B0;--text-muted:#6B6B80;
+--crimson:#8B1A1A;--ice:#2A3A5C;
+--bsub:rgba(201,168,76,0.15);--bmed:rgba(201,168,76,0.30);--bstr:rgba(201,168,76,0.60);--bneu:rgba(255,255,255,0.06);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#1a1a1a;display:flex;flex-direction:column;align-items:center;gap:20px;padding:20px;
+-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
+@page{size:A4;margin:0;}
+@media print{body{background:none;gap:0;padding:0;}}
+.page{width:210mm;height:297mm;padding:22mm 24mm;position:relative;box-sizing:border-box;page-break-after:always;overflow:hidden;display:flex;flex-direction:column;background:var(--bg-primary);color:var(--text);font-family:'Inter',sans-serif;font-size:10.5pt;line-height:1.75;}
+.page:last-child{page-break-after:auto;}
+.avoid-break{page-break-inside:avoid;break-inside:avoid;}
+/* Cover */
+.cover-deco{position:absolute;top:0;right:0;width:40%;height:100%;background:linear-gradient(180deg,rgba(201,168,76,0.08) 0%,transparent 60%);clip-path:polygon(30% 0,100% 0,100% 100%,0% 100%);}
+.cover-line{position:absolute;top:20mm;bottom:20mm;right:22mm;width:2px;background:linear-gradient(180deg,var(--gold),var(--gold-dark));}
+.cover-circle{position:absolute;border-radius:50%;border:1px solid var(--bsub);}
+.gold-bar{width:80px;height:3px;background:linear-gradient(135deg,#C9A84C,#F0D78C,#C9A84C);border-radius:2px;}
+/* Headers & Footers */
+.ph{display:flex;align-items:center;gap:12px;padding-bottom:4mm;border-bottom:1px solid var(--bsub);margin-bottom:6mm;}
+.ph .sn{width:36px;height:36px;background:var(--bg-tertiary);border:1px solid var(--bmed);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:600;font-size:11pt;color:var(--gold);}
+.ph h2{font-family:'Playfair Display',serif;font-weight:700;font-size:18pt;color:var(--text);letter-spacing:-0.02em;}
+.ph .tag{margin-left:auto;font-size:7pt;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.15em;}
+.pf{margin-top:auto;display:flex;justify-content:space-between;align-items:center;padding-top:4mm;border-top:1px solid var(--bsub);font-size:7pt;color:var(--text-muted);font-weight:500;letter-spacing:0.05em;}
+.pf .pn{font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--gold);}
+/* Tables */
+.ptable{width:100%;border-collapse:collapse;font-size:8.5pt;}
+.ptable thead th{background:var(--bg-tertiary);color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:0.1em;font-size:7pt;padding:8px 10px;text-align:left;border-bottom:2px solid var(--bmed);}
+.ptable tbody td{padding:8px 10px;border-bottom:1px solid var(--bneu);color:var(--text);vertical-align:top;line-height:1.5;}
+.ptable tbody tr:last-child td{border-bottom:none;}
+.ptable .num{font-family:'JetBrains Mono',monospace;color:var(--gold);font-weight:600;text-align:center;width:30px;}
+/* Cards */
+.card{background:var(--bg-secondary);border:1px solid var(--bneu);border-radius:10px;padding:5mm;page-break-inside:avoid;}
+.card-gold{background:var(--bg-secondary);border:1px solid var(--bmed);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:5mm;}
+.card-crit{background:linear-gradient(135deg,rgba(139,26,26,0.15),var(--bg-secondary));border:1px solid rgba(139,26,26,0.3);border-radius:10px;padding:5mm;}
+/* Legal */
+.lq{font-family:'Playfair Display',serif;font-style:italic;font-size:11pt;line-height:1.7;color:var(--gold-light);padding:4mm 5mm;border-left:3px solid var(--gold);background:rgba(201,168,76,0.05);border-radius:0 8px 8px 0;margin:4mm 0;}
+.lr{font-family:'JetBrains Mono',monospace;font-size:7.5pt;color:var(--text-muted);background:var(--bg-tertiary);padding:2px 6px;border-radius:4px;display:inline-block;}
+/* Forensic */
+.forensic{background:#FAFAF5;border-radius:8px;padding:4mm;color:#1A1A1A;font-size:8.5pt;line-height:1.55;box-shadow:0 4px 20px rgba(0,0,0,0.3);font-family:'Inter',sans-serif;}
+.hl-red{background:rgba(200,50,50,0.25);padding:1px 3px;border-radius:2px;font-weight:700;color:#8B1A1A;}
+.hl-gold{background:rgba(201,168,76,0.3);padding:1px 3px;border-radius:2px;font-weight:700;}
+/* Chain */
+.chain-node{background:var(--bg-secondary);border:1px solid var(--bmed);border-radius:8px;padding:3mm 4mm;text-align:center;font-size:8.5pt;font-weight:600;color:var(--text);}
+.chain-node.root{border-color:var(--crimson);background:linear-gradient(135deg,rgba(139,26,26,0.2),var(--bg-secondary));}
+.chain-arrow{text-align:center;color:var(--gold);font-size:14pt;line-height:1;}
+/* Lists */
+.clist{list-style:none;padding:0;}
+.clist li{position:relative;padding-left:16px;margin-bottom:6px;font-size:9.5pt;line-height:1.6;color:var(--text);}
+.clist li::before{content:'';position:absolute;left:0;top:7px;width:5px;height:5px;background:var(--gold);border-radius:50%;}
+/* Dividers */
+.div-gold{height:2px;background:linear-gradient(135deg,#C9A84C,#F0D78C,#C9A84C);width:60px;border:none;border-radius:2px;margin:4mm 0;}
+.sub-h{font-family:'Inter',sans-serif;font-weight:700;font-size:11pt;color:var(--gold);text-transform:uppercase;letter-spacing:0.1em;margin:5mm 0 3mm;}
+.body-text{font-size:10pt;line-height:1.7;color:var(--text2);}
+.flex-grow{flex-grow:1;}
+</style>
+</head>
+<body>
+
+<!-- PAGE 1: CAPA -->
+<div class="page" style="padding:0;">
+<div class="cover-deco"></div>
+<div class="cover-line"></div>
+<div class="cover-circle" style="width:300px;height:300px;top:-80px;left:-80px;border-color:rgba(201,168,76,0.08);background:rgba(201,168,76,0.03);"></div>
+<div class="cover-circle" style="width:200px;height:200px;bottom:60px;right:80px;border-color:rgba(201,168,76,0.06);"></div>
+<div style="position:relative;z-index:2;display:flex;flex-direction:column;height:100%;padding:28mm 28mm 24mm;">
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:auto;">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+<span style="font-family:'Inter';font-weight:700;font-size:8pt;color:var(--gold);text-transform:uppercase;letter-spacing:0.2em;">Advocacia Criminal</span>
+</div>
+<div style="margin-top:auto;">
+<div class="gold-bar" style="margin-bottom:8mm;"></div>
+<p style="font-family:'Inter';font-weight:600;font-size:8pt;color:var(--gold);text-transform:uppercase;letter-spacing:0.2em;margin-bottom:5mm;">Documento de Defesa</p>
+<h1 style="font-family:'Playfair Display',serif;font-weight:900;font-size:42pt;line-height:1.1;letter-spacing:-0.02em;color:var(--text);margin-bottom:6mm;">Kayque<br>Rodrigues<br>da Silva</h1>
+<p style="font-size:10pt;color:var(--text2);max-width:340px;line-height:1.6;margin-bottom:10mm;">Inconsistências processuais, violações legais e estratégia de ataque pela teoria da <strong style="color:var(--gold-light);">Árvore Envenenada</strong></p>
+<div style="display:flex;gap:12px;align-items:center;margin-bottom:12mm;">
+<span class="lr" style="font-size:7pt;">ART. 157, §1º CPP</span>
+<span class="lr" style="font-size:7pt;">ART. 226 CPP</span>
+<span class="lr" style="font-size:7pt;">ART. 5º, XI CF</span>
+</div>
+</div>
+<div style="border-top:1px solid var(--bsub);padding-top:5mm;display:flex;justify-content:space-between;align-items:center;">
+<span style="font-size:7pt;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;">Ref. DFS/2025-001</span>
+<span style="font-size:7pt;color:var(--text-muted);">Março de 2026</span>
+</div>
+</div>
+</div>
+
+<!-- PAGE 2: SUMÁRIO -->
+<div class="page">
+<div class="ph"><div class="sn">00</div><h2>Sumário</h2></div>
+<div style="margin-top:4mm;">
+<div style="display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--bneu);">
+<span style="font-weight:600;color:var(--text);">01 — Resumo das Inconsistências Encontradas</span><span class="lr">pg. 03</span></div>
+<div style="display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--bneu);">
+<span style="font-weight:600;color:var(--text);">02 — Análise Documental Comparativa</span><span class="lr">pg. 05</span></div>
+<div style="display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--bneu);">
+<span style="font-weight:600;color:var(--text);">03 — Fundamentos Legais Violados (CPP)</span><span class="lr">pg. 07</span></div>
+<div style="display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--bneu);">
+<span style="font-weight:600;color:var(--text);">04 — Fundamentos Legais (CF + Abuso de Autoridade)</span><span class="lr">pg. 09</span></div>
+<div style="display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--bneu);">
+<span style="font-weight:600;color:var(--text);">05 — Jurisprudência Aplicável</span><span class="lr">pg. 10</span></div>
+<div style="display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--bneu);">
+<span style="font-weight:600;color:var(--text);">06 — Estratégia de Ataque: Árvore Envenenada</span><span class="lr">pg. 11</span></div>
+<div style="display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--bneu);">
+<span style="font-weight:600;color:var(--text);">07 — Pedidos e Providências</span><span class="lr">pg. 12</span></div>
+<div style="display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--bneu);">
+<span style="font-weight:600;color:var(--text);">08 — Conclusão</span><span class="lr">pg. 14</span></div>
+</div>
+<div style="margin-top:auto;">
+<div class="card-gold" style="margin-bottom:6mm;">
+<p class="sub-h" style="margin-top:0;font-size:8pt;">Tese Central</p>
+<p style="font-size:9.5pt;color:var(--text);line-height:1.65;">A investigação contra Kayque Rodrigues da Silva foi integralmente construída sobre um <strong style="color:var(--gold-light);">reconhecimento fotográfico ilícito</strong> (art. 226, CPP), cuja nulidade contamina todas as provas derivadas pela <strong style="color:var(--gold-light);">Teoria da Árvore Envenenada</strong> (art. 157, §1º, CPP).</p>
+</div>
+</div>
+<div class="pf"><span>Defesa — Kayque Rodrigues da Silva</span><span class="pn">02</span></div>
+</div>
+
+<!-- PAGE 3: INCONSISTÊNCIAS 1-5 -->
+<div class="page">
+<div class="ph"><div class="sn">01</div><h2>Inconsistências Encontradas</h2><span class="tag">Itens 1–5</span></div>
+<table class="ptable">
+<thead><tr><th style="width:30px;">Nº</th><th>Inconsistência</th><th style="width:32%;">Prova / Base</th></tr></thead>
+<tbody>
+<tr><td class="num">01</td><td>A vítima descreveu o autor como <strong style="color:#E57373;">"cútis branca, sem barba"</strong> — Kayque é negro.</td><td>Tela do BO (campo "Cútis: Branca") + foto atual de Kayque.</td></tr>
+<tr><td class="num">02</td><td>A vítima disse no BO original que <strong>um indivíduo</strong> quebrou o vidro; a polícia, na representação, escreveu <strong style="color:#E57373;">dois indivíduos</strong>.</td><td>Comparação entre 1ª edição do BO e texto do mandado.</td></tr>
+<tr><td class="num">03</td><td>A vítima <strong>nunca disse</strong> que Kayque quebrou o vidro — apenas que o PIX foi para um "moço chamado Kayque".</td><td>BO original (18-19/06/2025).</td></tr>
+<tr><td class="num">04</td><td>O reconhecimento fotográfico foi realizado <strong style="color:#E57373;">107 dias após o crime</strong> (02/10/2025).</td><td>Data constante no mandado.</td></tr>
+<tr><td class="num">05</td><td>A fotografia utilizada mostrava Kayque com <strong>18 anos</strong> — ele já tinha <strong>24 anos</strong> na data do crime.</td><td>Informação do acusado (a comprovar com foto atual).</td></tr>
+</tbody>
+</table>
+<div class="pf"><span>Defesa — Kayque Rodrigues da Silva</span><span class="pn">03</span></div>
+</div>
+
+<!-- PAGE 4: INCONSISTÊNCIAS 6-10 -->
+<div class="page">
+<div class="ph"><div class="sn">01</div><h2>Inconsistências Encontradas</h2><span class="tag">Itens 6–10</span></div>
+<table class="ptable">
+<thead><tr><th style="width:30px;">Nº</th><th>Inconsistência</th><th style="width:32%;">Prova / Base</th></tr></thead>
+<tbody>
+<tr><td class="num">06</td><td>O reconhecimento fotográfico <strong>não observou</strong> o art. 226 do CPP: sem line-up, descrição prévia genérica e contraditória.</td><td>Autos — não há menção a auto pormenorizado ou testemunhas.</td></tr>
+<tr><td class="num">07</td><td>A vítima, em reconhecimento presencial (após o mandado), <strong style="color:#4CAF50;">não reconheceu Kayque</strong>.</td><td>Testemunha (mãe de Kayque); aguarda-se termo nos autos.</td></tr>
+<tr><td class="num">08</td><td>A autoridade policial <strong style="color:#E57373;">omitiu do juízo</strong> a descrição "cútis branca", a defasagem da foto e o número correto de autores.</td><td>Comparação entre BO e representação.</td></tr>
+<tr><td class="num">09</td><td>O PIX foi mera <strong>conta de passagem</strong> — Kayque não recebeu dinheiro; primo e cunhado intermediaram; Juan recebeu o valor final.</td><td>Depoimentos extrajudiciais (a serem juntados).</td></tr>
+<tr><td class="num">10</td><td>Kayque <strong>colaborou espontaneamente</strong>: entregou prints, compareceu a reconhecimento presencial e indicou primo.</td><td>Relato de Kayque (a comprovar por testemunhas e autos).</td></tr>
+</tbody>
+</table>
+<div class="card-crit" style="margin-top:6mm;">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:3mm;">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E57373" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+<span style="font-weight:700;font-size:10pt;color:#E57373;">Síntese Crítica</span>
+</div>
+<p style="font-size:9pt;color:var(--text2);line-height:1.6;">São <strong style="color:var(--text);">10 inconsistências documentadas</strong> que, em conjunto, demonstram que a investigação foi conduzida com base em provas ilícitas e omissões deliberadas da autoridade policial perante o Poder Judiciário.</p>
+</div>
+<div class="pf"><span>Defesa — Kayque Rodrigues da Silva</span><span class="pn">04</span></div>
+</div>
+
+<!-- PAGE 5: ANÁLISE DOCUMENTAL - BO -->
+<div class="page">
+<div class="ph"><div class="sn">02</div><h2>Análise Documental</h2><span class="tag">Boletim de Ocorrência</span></div>
+<p class="sub-h" style="font-size:9pt;margin-top:0;">Histórico do Boletim de Ocorrência — Duas Edições</p>
+<div class="forensic" style="margin-bottom:5mm;">
+<p style="font-weight:700;font-size:7pt;text-transform:uppercase;letter-spacing:0.1em;color:#666;margin-bottom:3mm;">1ª Edição — 18/06/2025 11:32 — Delegacia Eletrônica</p>
+<p style="margin-bottom:3mm;">"Estava parada no trânsito da avenida quando <span class="hl-red">um indivíduo</span> quebrou o vidro do carro e levou o celular além disso entraram no banco e fizeram pix de 1570 da conta bradesco"</p>
+<p style="color:#888;font-size:7.5pt;margin-bottom:3mm;font-style:italic;">Autor 1 – Desconhecido, <span class="hl-red">Barba: Sem barba</span></p>
+<div style="height:1px;background:#ddd;margin:3mm 0;"></div>
+<p style="font-weight:700;font-size:7pt;text-transform:uppercase;letter-spacing:0.1em;color:#666;margin-bottom:3mm;">2ª Edição — 19/06/2025 20:29 — Delegacia Eletrônica</p>
+<p>"Após pegarem meu celular efetuaram um pix de minha conta para <span class="hl-gold">um moço chamado Kayque Rodrigues da Silva</span>"</p>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:4mm;margin-bottom:4mm;">
+<div class="card-crit">
+<p style="font-size:7pt;font-weight:700;color:#E57373;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:2mm;">Contradição 1</p>
+<p style="font-size:8.5pt;color:var(--text);line-height:1.5;">O BO descreve <strong>"cútis branca, sem barba"</strong>. Kayque é <strong>negro</strong>. A descrição física exclui o acusado.</p>
+</div>
+<div class="card-crit">
+<p style="font-size:7pt;font-weight:700;color:#E57373;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:2mm;">Contradição 2</p>
+<p style="font-size:8.5pt;color:var(--text);line-height:1.5;">A vítima mencionou <strong>"um indivíduo"</strong>. Jamais disse que Kayque quebrou o vidro — apenas que o PIX foi para ele.</p>
+</div>
+</div>
+<div class="card-gold">
+<p style="font-size:8.5pt;color:var(--text2);line-height:1.5;">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
+<strong style="color:var(--gold-light);">Observação:</strong> A vítima referiu-se a Kayque apenas como destinatário do PIX, e não como autor do furto. A atribuição da autoria material a Kayque foi <strong style="color:var(--text);">criação exclusiva da autoridade policial</strong>.</p>
+</div>
+<div class="pf"><span>Defesa — Kayque Rodrigues da Silva</span><span class="pn">05</span></div>
+</div>
+
+<!-- PAGE 6: ANÁLISE DOCUMENTAL - REPRESENTAÇÃO -->
+<div class="page">
+<div class="ph"><div class="sn">02</div><h2>Análise Documental</h2><span class="tag">Representação Policial</span></div>
+<p class="sub-h" style="font-size:9pt;margin-top:0;">Texto da Representação Policial ao Juízo</p>
+<div class="forensic" style="margin-bottom:4mm;">
+<p style="margin-bottom:3mm;">"Segundo os relatos constantes nos autos, em 17/06/2025, por volta de 10h, na Avenida Professor Luiz Ignácio Anhaia Mello, nº 3000, Jardim Independência, São Paulo/SP, <span class="hl-red">dois indivíduos</span> aproximaram-se do veículo parado no semáforo. Na sequência, um deles quebrou o vidro da porta dianteira e subtraiu o telefone celular da vítima."</p>
+<p style="margin-bottom:3mm;">"Em <span class="hl-red">02/10/2025</span>, compareceu em solo policial, ratificou os fatos supracitados, e realizou o procedimento de <span class="hl-red">reconhecimento fotográfico</span>, meio pelo qual identificou KAYQUE RODRIGUES DA SILVA como o indivíduo que quebrou o vidro..."</p>
+<p>"A partir das diligências realizadas pela equipe policial, logrou-se identificar o representado KAYQUE RODRIGUES DA SILVA, que foi <span class="hl-red">prontamente reconhecido</span> pela vítima como um dos autores do delito em tela."</p>
+</div>
+<p class="sub-h" style="font-size:9pt;">Quadro Comparativo: BO vs. Representação</p>
+<table class="ptable" style="font-size:8pt;">
+<thead><tr><th>Elemento</th><th>Boletim de Ocorrência (Vítima)</th><th>Representação Policial</th></tr></thead>
+<tbody>
+<tr><td style="font-weight:600;color:var(--gold);">Nº de autores</td><td>"<strong>Um</strong> indivíduo"</td><td style="color:#E57373;font-weight:600;">"<strong>Dois</strong> indivíduos"</td></tr>
+<tr><td style="font-weight:600;color:var(--gold);">Aparência</td><td>"Cútis <strong>branca</strong>, sem barba"</td><td style="color:#E57373;font-weight:600;">Omitido do juízo</td></tr>
+<tr><td style="font-weight:600;color:var(--gold);">Papel de Kayque</td><td>Destinatário do PIX ("um moço")</td><td style="color:#E57373;font-weight:600;">Autor material do furto</td></tr>
+<tr><td style="font-weight:600;color:var(--gold);">Reconhecimento</td><td>Não houve no BO</td><td style="color:#E57373;font-weight:600;">Fotográfico — 107 dias depois, foto defasada</td></tr>
+<tr><td style="font-weight:600;color:var(--gold);">Rec. Presencial</td><td>—</td><td style="color:#4CAF50;font-weight:600;">Vítima NÃO reconheceu Kayque</td></tr>
+</tbody>
+</table>
+<div class="pf"><span>Defesa — Kayque Rodrigues da Silva</span><span class="pn">06</span></div>
+</div>
+
+<!-- PAGE 7: CPP PARTE 1 -->
+<div class="page">
+<div class="ph"><div class="sn">03</div><h2>Fundamentos Legais Violados</h2><span class="tag">CPP — Parte 1</span></div>
+<table class="ptable" style="font-size:8.5pt;">
+<thead><tr><th style="width:18%;">Dispositivo</th><th style="width:38%;">Teor</th><th style="width:44%;">Violação no Caso</th></tr></thead>
+<tbody>
+<tr><td><span class="lr">Art. 226 CPP</span></td><td>Procedimento do reconhecimento de pessoas: descrição prévia, line-up, auto pormenorizado, testemunhas.</td><td style="color:#E57373;">Reconhecimento fotográfico sem line-up, com foto antiga (6 anos defasada), sem descrição compatível, sem auto circunstanciado.</td></tr>
+<tr><td><span class="lr">Art. 157, caput</span></td><td>São inadmissíveis as provas ilícitas, obtidas em violação a normas constitucionais ou legais.</td><td style="color:#E57373;">O reconhecimento fotográfico é prova ilícita por violar frontalmente o art. 226.</td></tr>
+<tr><td><span class="lr">Art. 157, §1º</span></td><td>São inadmissíveis as provas derivadas das ilícitas (árvore envenenada), salvo fonte independente.</td><td style="color:#E57373;">Mandado, apreensão do celular, condução à delegacia e eventuais dados extraídos são todos derivados ilícitos.</td></tr>
+</tbody>
+</table>
+<div class="lq" style="margin-top:6mm;">
+"São inadmissíveis, devendo ser desentranhados do processo, os provenientes de reconhecimento de pessoas por meio fotográfico realizado em desconformidade com o art. 226 do CPP." <br><span style="font-style:normal;font-size:8pt;color:var(--text-muted);">— STJ, Recursos Repetitivos, junho/2025</span>
+</div>
+<div class="pf"><span>Defesa — Kayque Rodrigues da Silva</span><span class="pn">07</span></div>
+</div>
+
+<!-- PAGE 8: CPP PARTE 2 -->
+<div class="page">
+<div class="ph"><div class="sn">03</div><h2>Fundamentos Legais Violados</h2><span class="tag">CPP — Parte 2</span></div>
+<table class="ptable" style="font-size:8.5pt;">
+<thead><tr><th style="width:18%;">Dispositivo</th><th style="width:38%;">Teor</th><th style="width:44%;">Violação no Caso</th></tr></thead>
+<tbody>
+<tr><td><span class="lr">Art. 240, §1º</span></td><td>A busca domiciliar depende de "fundadas razões".</td><td style="color:#E57373;">As únicas razões eram o reconhecimento viciado e o nome do destinatário do PIX — insuficientes.</td></tr>
+<tr><td><span class="lr">Art. 243, II</span></td><td>O mandado deve indicar "o motivo e os fins da diligência".</td><td style="color:#E57373;">O motivo foi deturpado: omitiu-se a descrição "cútis branca", o número de autores e a defasagem da foto.</td></tr>
+<tr><td><span class="lr">Art. 245, §7º</span></td><td>A busca deve ser executada com leitura do mandado e lavratura de auto assinado por duas testemunhas.</td><td style="color:#E57373;">Não há comprovação de cumprimento regular — a defesa não teve acesso.</td></tr>
+</tbody>
+</table>
+<div class="card-gold" style="margin-top:6mm;">
+<p style="font-size:9pt;line-height:1.6;color:var(--text2);">
+<strong style="color:var(--gold-light);">Impacto prático:</strong> Todos os três dispositivos acima convergem para a mesma conclusão: <strong style="color:var(--text);">o mandado de busca e apreensão foi obtido mediante informações falsas e omissões deliberadas</strong>, sendo portanto <strong style="color:#E57373;">nulo de pleno direito</strong>.
+</p>
+</div>
+<div class="pf"><span>Defesa — Kayque Rodrigues da Silva</span><span class="pn">08</span></div>
+</div>
+
+<!-- PAGE 9: CF + ABUSO -->
+<div class="page">
+<div class="ph"><div class="sn">04</div><h2>Constituição Federal + Abuso de Autoridade</h2></div>
+<p class="sub-h" style="font-size:9pt;margin-top:0;">Constituição Federal de 1988</p>
+<table class="ptable" style="font-size:8.5pt;margin-bottom:5mm;">
+<thead><tr><th style="width:18%;">Dispositivo</th><th style="width:38%;">Teor</th><th style="width:44%;">Violação</th></tr></thead>
+<tbody>
+<tr><td><span class="lr">Art. 5º, XI</span></td><td>A casa é asilo inviolável; ingresso somente com consentimento ou mandado judicial.</td><td style="color:#E57373;">Mandado obtido com base em prova ilícita — invasão domiciliar ilegal.</td></tr>
+<tr><td><span class="lr">Art. 5º, LIV</span></td><td>Ninguém será privado da liberdade ou de seus bens sem o devido processo legal.</td><td style="color:#E57373;">Celular apreendido sem justa causa; condução coercitiva sem amparo legal.</td></tr>
+<tr><td><span class="lr">Art. 5º, LV</span></td><td>Aos acusados são assegurados o contraditório e a ampla defesa.</td><td style="color:#E57373;">Inquérito sob sigilo impedindo a defesa de produzir provas e acessar autos.</td></tr>
+</tbody>
+</table>
+<p class="sub-h" style="font-size:9pt;">Lei 13.869/2019 — Abuso de Autoridade</p>
+<table class="ptable" style="font-size:8.5pt;">
+<thead><tr><th style="width:18%;">Dispositivo</th><th style="width:38%;">Conduta Tipificada</th><th style="width:44%;">Ocorrência no Caso</th></tr></thead>
+<tbody>
+<tr><td><span class="lr">Art. 9º</span></td><td>Iniciar investigação contra alguém sem justa causa.</td><td style="color:#E57373;">Inquérito instaurado com base em reconhecimento viciado e omissão de informações ao juízo.</td></tr>
+<tr><td><span class="lr">Art. 10</span></td><td>Prolongar investigação sem fundamento, mantendo sigilo desnecessário.</td><td style="color:#E57373;">Sigilo mantido mesmo após cumprida a medida cautelar.</td></tr>
+</tbody>
+</table>
+<div class="pf"><span>Defesa — Kayque Rodrigues da Silva</span><span class="pn">09</span></div>
+</div>
+
+<!-- PAGE 10: JURISPRUDÊNCIA -->
+<div class="page">
+<div class="ph"><div class="sn">05</div><h2>Jurisprudência Aplicável</h2></div>
+<div style="display:flex;flex-direction:column;gap:4mm;">
+<div class="card-gold">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2mm;">
+<span style="font-weight:700;font-size:10pt;color:var(--text);">STJ — Recursos Repetitivos (Jun/2025)</span>
+<span class="lr">Vinculante</span>
+</div>
+<p style="font-size:9pt;color:var(--text2);line-height:1.55;">O reconhecimento de pessoas sem as formalidades do art. 226 do CPP é <strong style="color:#E57373;">prova ilícita</strong> e não pode fundamentar qualquer decisão, nem mesmo prisão preventiva.</p>
+</div>
+<div class="card-gold">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2mm;">
+<span style="font-weight:700;font-size:10pt;color:var(--text);">STJ — HC 598.886/SP</span>
+<span class="lr">6ª Turma</span>
+</div>
+<p style="font-size:9pt;color:var(--text2);line-height:1.55;">O reconhecimento fotográfico sem observância das formalidades legais é <strong style="color:#E57373;">nulo</strong>, devendo ser desentranhado dos autos.</p>
+</div>
+<div class="card-gold">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2mm;">
+<span style="font-weight:700;font-size:10pt;color:var(--text);">STF — RE 603.616/RO (Tema 280)</span>
+<span class="lr">Repercussão Geral</span>
+</div>
+<p style="font-size:9pt;color:var(--text2);line-height:1.55;">A entrada forçada em domicílio sem mandado válido só é lícita em situações excepcionais; o <strong style="color:#E57373;">mandado viciado equivale a ingresso ilegal</strong>.</p>
+</div>
+<div class="card-gold">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2mm;">
+<span style="font-weight:700;font-size:10pt;color:var(--text);">TJDFT — Acórdão 1476758</span>
+<span class="lr">Turma Criminal</span>
+</div>
+<p style="font-size:9pt;color:var(--text2);line-height:1.55;">A "fishing expedition" (pesca probatória especulativa) é vedada; a busca e apreensão deve ser direcionada a <strong style="color:var(--text);">indícios concretos</strong>, não a suposições.</p>
+</div>
+</div>
+<div class="pf"><span>Defesa — Kayque Rodrigues da Silva</span><span class="pn">10</span></div>
+</div>
+
+<!-- PAGE 11: ÁRVORE ENVENENADA -->
+<div class="page">
+<div class="ph"><div class="sn">06</div><h2>Estratégia: Árvore Envenenada</h2><span class="tag">Art. 157, §1º CPP</span></div>
+<p class="sub-h" style="font-size:9pt;margin-top:0;">Cadeia de Contaminação</p>
+<div style="display:flex;flex-direction:column;gap:2mm;margin-bottom:5mm;">
+<div class="chain-node root">Reconhecimento fotográfico viciado (art. 226 violado; foto 6 anos defasada; sem line-up; contradição "cútis branca")</div>
+<div class="chain-arrow">&#9660;</div>
+<div class="chain-node">Representação policial (baseada exclusivamente no reconhecimento viciado)</div>
+<div class="chain-arrow">&#9660;</div>
+<div class="chain-node">Mandado de busca e apreensão (deferido com base na representação)</div>
+<div class="chain-arrow">&#9660;</div>
+<div class="chain-node">Apreensão do celular de Kayque</div>
+<div class="chain-arrow">&#9660;</div>
+<div class="chain-node">Condução coercitiva à delegacia</div>
+<div class="chain-arrow">&#9660;</div>
+<div class="chain-node">Dados extraídos do celular (se houver)</div>
+</div>
+<div class="card-crit">
+<p style="font-weight:700;font-size:9pt;color:#E57373;margin-bottom:2mm;">Não há fonte independente (art. 157, §2º, CPP):</p>
+<ul class="clist" style="margin:0;">
+<li>A mera menção ao nome "Kayque" como destinatário do PIX <strong>não constitui justa causa</strong></li>
+<li>A descrição física "cútis branca" <strong>exclui</strong> Kayque</li>
+<li>O reconhecimento presencial foi <strong>negativo</strong></li>
+<li>A dinâmica do PIX demonstra que Kayque <strong>não teve proveito nem conhecimento</strong></li>
+</ul>
+</div>
+<div class="pf"><span>Defesa — Kayque Rodrigues da Silva</span><span class="pn">11</span></div>
+</div>
+
+<!-- PAGE 12: PEDIDOS -->
+<div class="page">
+<div class="ph"><div class="sn">07</div><h2>Pedidos Principais</h2></div>
+<div style="display:flex;flex-direction:column;gap:3mm;margin-bottom:5mm;">
+<div class="card" style="display:flex;align-items:flex-start;gap:4mm;">
+<span style="font-family:'Playfair Display',serif;font-weight:800;font-size:22pt;color:rgba(201,168,76,0.25);line-height:1;min-width:30px;">1</span>
+<div><p style="font-weight:600;font-size:9.5pt;color:var(--text);margin-bottom:1mm;">Levantamento do sigilo e acesso integral aos autos</p><p style="font-size:8pt;color:var(--text2);">CF, art. 5º, LV — garantia do contraditório e ampla defesa.</p></div>
+</div>
+<div class="card" style="display:flex;align-items:flex-start;gap:4mm;">
+<span style="font-family:'Playfair Display',serif;font-weight:800;font-size:22pt;color:rgba(201,168,76,0.25);line-height:1;min-width:30px;">2</span>
+<div><p style="font-weight:600;font-size:9.5pt;color:var(--text);margin-bottom:1mm;">Declaração de nulidade do reconhecimento fotográfico</p><p style="font-size:8pt;color:var(--text2);">Art. 226 CPP + STJ Recursos Repetitivos Jun/2025.</p></div>
+</div>
+<div class="card" style="display:flex;align-items:flex-start;gap:4mm;">
+<span style="font-family:'Playfair Display',serif;font-weight:800;font-size:22pt;color:rgba(201,168,76,0.25);line-height:1;min-width:30px;">3</span>
+<div><p style="font-weight:600;font-size:9.5pt;color:var(--text);margin-bottom:1mm;">Nulidade do mandado e de todas as provas derivadas</p><p style="font-size:8pt;color:var(--text2);">Art. 157, §1º CPP — Teoria da Árvore Envenenada.</p></div>
+</div>
+<div class="card" style="display:flex;align-items:flex-start;gap:4mm;">
+<span style="font-family:'Playfair Display',serif;font-weight:800;font-size:22pt;color:rgba(201,168,76,0.25);line-height:1;min-width:30px;">4</span>
+<div><p style="font-weight:600;font-size:9.5pt;color:var(--text);margin-bottom:1mm;">Restituição imediata do aparelho celular apreendido</p><p style="font-size:8pt;color:var(--text2);">Art. 118, §3º CPP.</p></div>
+</div>
+<div class="card" style="display:flex;align-items:flex-start;gap:4mm;">
+<span style="font-family:'Playfair Display',serif;font-weight:800;font-size:22pt;color:rgba(201,168,76,0.25);line-height:1;min-width:30px;">5</span>
+<div><p style="font-weight:600;font-size:9.5pt;color:var(--text);margin-bottom:1mm;">Expedição de ofícios para câmeras de segurança</p><p style="font-size:8pt;color:var(--text2);">Art. 156, I CPP — prova de álibi (Rua Pêra-Marmelo e estações de trem).</p></div>
+</div>
+<div class="card" style="display:flex;align-items:flex-start;gap:4mm;">
+<span style="font-family:'Playfair Display',serif;font-weight:800;font-size:22pt;color:rgba(201,168,76,0.25);line-height:1;min-width:30px;">6</span>
+<div><p style="font-weight:600;font-size:9.5pt;color:var(--text);margin-bottom:1mm;">Arquivamento do inquérito policial</p><p style="font-size:8pt;color:var(--text2);">Art. 28 CPP — ausência de justa causa para persecução penal.</p></div>
+</div>
+</div>
+<div class="pf"><span>Defesa — Kayque Rodrigues da Silva</span><span class="pn">12</span></div>
+</div>
+
+<!-- PAGE 13: QUADRO RESUMO + PROVIDÊNCIAS -->
+<div class="page">
+<div class="ph"><div class="sn">07</div><h2>Quadro Resumo</h2><span class="tag">Para Anexar à Petição</span></div>
+<table class="ptable" style="font-size:8pt;margin-bottom:5mm;">
+<thead><tr><th>Vício</th><th>Dispositivo Violado</th><th>Consequência</th></tr></thead>
+<tbody>
+<tr><td>Reconhecimento sem line-up e foto defasada</td><td><span class="lr">Art. 226 CPP</span></td><td style="color:#E57373;">Prova ilícita (art. 157, caput)</td></tr>
+<tr><td>Descrição "cútis branca" incompatível com Kayque</td><td><span class="lr">Art. 226, I; 157</span></td><td style="color:#E57373;">Impugnação do reconhecimento</td></tr>
+<tr><td>Vítima não reconheceu Kayque presencialmente</td><td><span class="lr">Art. 226, IV</span></td><td style="color:#4CAF50;">Corrobora fragilidade da prova</td></tr>
+<tr><td>Polícia omitiu descrição original e defasagem</td><td><span class="lr">Art. 6º CPP</span></td><td style="color:#E57373;">Nulidade do mandado</td></tr>
+<tr><td>Mandado baseado em prova ilícita</td><td><span class="lr">Art. 157, §1º</span></td><td style="color:#E57373;">Árvore envenenada</td></tr>
+<tr><td>Sigilo mantido após medida cumprida</td><td><span class="lr">Art. 5º, LV CF</span></td><td style="color:#E57373;">Cerceamento de defesa</td></tr>
+</tbody>
+</table>
+<p class="sub-h" style="font-size:9pt;">Providências Imediatas para a Defesa</p>
+<ul class="clist">
+<li>Protocolar petição com os pedidos elencados na seção anterior</li>
+<li>Juntar <strong>foto atual de Kayque</strong> e a tela do BO com o campo "cútis branca"</li>
+<li>Requerer a juntada dos depoimentos do primo, Juan e cunhado</li>
+<li>Arrolar a <strong>mãe de Kayque como testemunha</strong> do reconhecimento presencial negativo</li>
+<li>Requerer expedição de ofícios para câmeras de segurança (Rua Pêra-Marmelo e estações de trem)</li>
+</ul>
+<div class="pf"><span>Defesa — Kayque Rodrigues da Silva</span><span class="pn">13</span></div>
+</div>
+
+<!-- PAGE 14: CONCLUSÃO -->
+<div class="page" style="background:linear-gradient(180deg,var(--bg-primary) 0%,#0D0D15 100%);">
+<div class="ph"><div class="sn">08</div><h2>Conclusão</h2></div>
+<div class="lq" style="font-size:12pt;margin-bottom:6mm;">
+"Os elementos coligidos demonstram, de forma incontroversa, que a investigação contra Kayque Rodrigues da Silva foi construída sobre provas ilícitas e omissões propositais da autoridade policial."
+</div>
+<div style="margin-bottom:6mm;">
+<p style="font-size:10pt;color:var(--text2);line-height:1.75;margin-bottom:4mm;">O reconhecimento fotográfico — único elemento que vincula Kayque ao crime — viola frontalmente o artigo 226 do Código de Processo Penal: foi realizado <strong style="color:var(--text);">107 dias</strong> após os fatos, com fotografia <strong style="color:var(--text);">6 anos defasada</strong>, sem procedimento de line-up, e em absoluta contradição com a descrição original da vítima (<strong style="color:#E57373;">"cútis branca"</strong>).</p>
+<p style="font-size:10pt;color:var(--text2);line-height:1.75;margin-bottom:4mm;">A Teoria da Árvore Envenenada (art. 157, §1º, CPP) impõe a nulidade de <strong style="color:var(--text);">todas as provas derivadas</strong>: o mandado de busca, a apreensão do celular, a condução coercitiva e quaisquer dados eventualmente extraídos.</p>
+<p style="font-size:10pt;color:var(--text2);line-height:1.75;">Não há fonte independente. Não há justa causa. A descrição física exclui o acusado. O reconhecimento presencial foi negativo. O PIX foi mera conta de passagem.</p>
+</div>
+<div class="card" style="border-color:var(--bstr);background:var(--bg-tertiary);text-align:center;padding:6mm;">
+<p style="font-family:'Playfair Display',serif;font-weight:800;font-size:14pt;color:var(--gold);margin-bottom:3mm;">A única medida justa e legal é o arquivamento do inquérito e a restituição do bem apreendido.</p>
+<hr class="div-gold" style="margin:4mm auto;">
+<p style="font-size:8pt;color:var(--text-muted);letter-spacing:0.1em;">ART. 28 CPP — ART. 157, §1º CPP — ART. 226 CPP</p>
+</div>
+<div style="margin-top:auto;">
+<div style="border-top:1px solid var(--bsub);padding-top:5mm;display:flex;justify-content:space-between;align-items:flex-end;">
+<div>
+<p style="font-size:7pt;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.15em;margin-bottom:2mm;">Documento de Defesa</p>
+<p style="font-size:8pt;color:var(--text2);">Ref. DFS/2025-001 — Março de 2026</p>
+</div>
+<span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--gold);font-size:9pt;">14</span>
+</div>
+</div>
+</div>
+
+</body>
+</html>

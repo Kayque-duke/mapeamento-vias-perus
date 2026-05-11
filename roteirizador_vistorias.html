@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roteirizador Sênior - Caixeiro Viajante</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <style>
+        :root {
+            --bg-primary: #0f1117;
+            --bg-secondary: #1a1d27;
+            --bg-card: #1e2230;
+            --accent-primary: #3b82f6;
+            --accent-success: #10b981;
+            --accent-warning: #f59e0b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border-medium: rgba(59, 130, 246, 0.30);
+            --glass-bg: rgba(30, 34, 48, 0.80);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 400px;
+            background-color: var(--bg-secondary);
+            border-right: 1px solid var(--glass-border);
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+        }
+
+        .header {
+            padding: 20px;
+            border-bottom: 1px solid var(--glass-border);
+            background: var(--bg-card);
+        }
+
+        .header h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 22px;
+            color: var(--accent-primary);
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .actions {
+            padding: 15px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        button {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .btn-primary:hover { background: #2563eb; }
+
+        .btn-success {
+            background: var(--accent-success);
+            color: white;
+        }
+
+        .btn-success:hover { background: #059669; }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border-medium);
+            color: var(--text-primary);
+        }
+
+        .btn-outline:hover { background: rgba(255,255,255,0.05); }
+
+        /* List */
+        .street-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .street-item {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .street-item:hover { border-color: var(--accent-primary); }
+
+        .street-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .street-index {
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .street-name { font-size: 14px; font-weight: 500; }
+        
+        .status-dot {
+            width: 10px; height: 10px; border-radius: 50%;
+        }
+        .status-red { background: var(--accent-danger, #ef4444); }
+        .status-green { background: var(--accent-success); }
+
+        /* Map */
+        #map {
+            flex: 1;
+            height: 100%;
+            background: #1a1d27;
+        }
+
+        /* Route Result */
+        .route-badge {
+            background: var(--accent-success);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+            display: none;
+        }
+
+        .instructions {
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 3px solid var(--accent-primary);
+            padding: 10px 15px;
+            margin: 15px 20px 0;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="header">
+            <h1>📍 Roteirizador Sênior</h1>
+            <p>Problema do Caixeiro Viajante (TSP). Arraste os pinos no mapa caso a geolocalização falhe (ruas de terra).</p>
+        </div>
+
+        <div class="instructions">
+            <strong>1.</strong> Clique em "Geolocalizar Automático".<br>
+            <strong>2.</strong> Ajuste os pinos arrastando-os no mapa.<br>
+            <strong>3.</strong> Clique em "Calcular Melhor Rota".
+        </div>
+
+        <div class="actions">
+            <button class="btn-outline" onclick="autoGeocode()">🔍 1. Geolocalizar Automático (Nominatim)</button>
+            <button class="btn-primary" onclick="distributeUnmapped()">📍 2. Jogar Pinos Restantes no Mapa (Manual)</button>
+            <button class="btn-success" onclick="calculateRoute()">🚀 3. Calcular Melhor Rota (Caixeiro Viajante)</button>
+        </div>
+
+        <div class="street-list" id="streetList">
+            <!-- Items via JS -->
+        </div>
+    </div>
+
+    <div id="map"></div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+        // Configuração Inicial do Mapa (Focado em Perus, SP)
+        const map = L.map('map', { zoomControl: false }).setView([-23.405, -46.755], 14);
+        L.control.zoom({ position: 'topright' }).addTo(map);
+        
+        // Dark Tile Layer (CartoDB Dark Matter)
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+            subdomains: 'abcd',
+            maxZoom: 20
+        }).addTo(map);
+
+        // Lista das 21 Ruas Pendentes
+        const pendingStreets = [
+            { id: 1, name: "RUA PAULO FREIRE", query: "Rua Paulo Freire, Perus, São Paulo", lat: null, lng: null, marker: null },
+            { id: 2, name: "RUA DA SERVIDÃO PUBLICA", query: "Rua da Servidão Publica, Perus, São Paulo", lat: null, lng: null, marker: null },
+            { id: 3, name: "RUA ZUMBI DOS PALMARES", query: "Rua Zumbi dos Palmares, Perus, São Paulo", lat: null, lng: null, marker: null },
+            { id: 4, name: "RUA DONA OLIVIA", query: "Rua Dona Olivia, Perus, São Paulo", lat: null, lng: null, marker: null },
+            { id: 5, name: "RUA DONA NERCI", query: "Rua Dona Nerci, Perus, São Paulo", lat: null, lng: null, marker: null },
+            { id: 6, name: "RUA RONALDO", query: "Rua Ronaldo, Perus, São Paulo", lat: null, lng: null, marker: null },
+            { id: 7, name: "RUA AMEIXA DA MATA (1)", query: "Rua Ameixa da Mata, Perus, São Paulo", lat: null, lng: null, marker: null },
+            { id: 8, name: "RUA ARAÇA DA SERRA (2)", query: "Rua Araça da Serra, Perus, São Paulo", lat: null, lng: null, marker: null },
+            { id: 9, name: "RUA BABOSA BRANCA (3)", query: "Rua Babosa Branca, Perus, São Paulo", lat: null, lng: null, marker: null },
+            { id: 10, name: "RUA CANEL AMARELA (4-8-1)", query: "Rua Canel Amarela, Perus, São Paulo", lat: null, lng: null, marker: null },
+            { id: 11, name: "RUA CEREJA DO MATO (5-6)", query: "Rua Cereja do Mato, Perus, São Paulo", lat: null, lng: null, marker: null },
+            { id: 12, name: "RUA FIGUEIRA BRANCA (7)", query: "Rua Figueira Branca, Perus, São Paulo", lat: null, lng: null, marker: null },
+            { id: 13, name: "RUA LOURO CRAVO (9)", query: "Rua Louro Cravo, Perus, São Paulo", lat: null, lng: null, marker: null },
+            { id: 14, name: "RUA PALMITO JUSSARA (10)", query: "Rua Palmito Jussara, Perus, São Paulo", lat: null, lng: null, marker: null },
+            { id: 15, name: "RUA PEROBA AMAREÇA (11)", query: "Rua Peroba Amareça, Perus, São Paulo", lat: null, lng: null, marker: null },
+            { id: 16, name: "RUA PESSEGUEIRO BRAVO (13)", query: "Rua Pessegueiro Bravo, Perus, São Paulo", lat: null, lng: null, marker: null },
+            { id: 17, name: "RUA PINHEIRO AMARICANO", query: "Rua Pinheiro Amaricano, Perus, São Paulo", lat: null, lng: null, marker: null },
+            { id: 18, name: "RUA CERRADO BRASILEIRO", query: "Rua Cerrado Brasileiro, Perus, São Paulo", lat: null, lng: null, marker: null },
+            { id: 19, name: "MAR DAS FLORES", query: "Mar das Flores, Perus, São Paulo", lat: null, lng: null, marker: null },
+            { id: 20, name: "RUA GOLFO DO ALASKA", query: "Rua Golfo do Alaska, Perus, São Paulo", lat: null, lng: null, marker: null },
+            { id: 21, name: "RUA DR. NILO CAIRO", query: "Rua Dr. Nilo Cairo, Perus, São Paulo", lat: null, lng: null, marker: null }
+        ];
+
+        let polylineLayer = null;
+
+        // Renderizar Lista
+        function renderList() {
+            const list = document.getElementById('streetList');
+            list.innerHTML = '';
+            
+            pendingStreets.forEach((street, index) => {
+                const hasCoords = street.lat !== null;
+                list.innerHTML += `
+                    <div class="street-item" onclick="focusMap(${index})">
+                        <div class="street-info">
+                            <div class="street-index">${index + 1}</div>
+                            <span class="street-name">${street.name}</span>
+                            <span class="route-badge" id="badge-${index}">ROTA</span>
+                        </div>
+                        <div class="status-dot ${hasCoords ? 'status-green' : 'status-red'}"></div>
+                    </div>
+                `;
+            });
+        }
+
+        // Criar Marcador Arrastável no Mapa
+        function createMarker(street, lat, lng) {
+            street.lat = lat;
+            street.lng = lng;
+            
+            if (street.marker) {
+                map.removeLayer(street.marker);
+            }
+
+            const marker = L.marker([lat, lng], {
+                draggable: true,
+                title: street.name
+            }).addTo(map);
+
+            marker.bindPopup(`<b>${street.name}</b><br>Arraste para ajustar.`);
+
+            marker.on('dragend', function(e) {
+                const position = marker.getLatLng();
+                street.lat = position.lat;
+                street.lng = position.lng;
+                if(polylineLayer) map.removeLayer(polylineLayer); // Clear route if moved
+            });
+
+            street.marker = marker;
+            renderList();
+        }
+
+        // Geolocalização via Nominatim (Lento propositalmente para não tomar block API)
+        async function autoGeocode() {
+            const btn = document.querySelector('.btn-outline');
+            btn.innerText = "⏳ Buscando... (Aguarde)";
+            btn.disabled = true;
+
+            for (let i = 0; i < pendingStreets.length; i++) {
+                const street = pendingStreets[i];
+                if (street.lat !== null) continue; // Já tem
+
+                try {
+                    const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(street.query)}&limit=1`);
+                    const data = await response.json();
+                    
+                    if (data && data.length > 0) {
+                        createMarker(street, parseFloat(data[0].lat), parseFloat(data[0].lon));
+                    }
+                } catch (e) {
+                    console.log("Erro ao buscar " + street.name);
+                }
+                
+                // Delay 1 segundo (Regra do Nominatim)
+                await new Promise(r => setTimeout(r, 1000));
+            }
+
+            btn.innerText = "✔️ Geolocalização Concluída";
+            alert("Busca concluída! Algumas ruas de terra não existem no Google/OSM. Use o Passo 2 para posicioná-las manualmente.");
+        }
+
+        // Distribuir ruas não mapeadas num ponto base para o usuário arrastar
+        function distributeUnmapped() {
+            let baseLat = -23.405;
+            let baseLng = -46.755;
+            let count = 0;
+
+            pendingStreets.forEach(street => {
+                if (street.lat === null) {
+                    // Posiciona com leve offset para não empilhar todas no mesmo pixel
+                    const lat = baseLat + (count * 0.0005);
+                    const lng = baseLng + (count * 0.0005);
+                    createMarker(street, lat, lng);
+                    count++;
+                }
+            });
+            
+            map.setView([baseLat, baseLng], 15);
+            alert("Os pinos das ruas não encontradas foram jogados no centro da tela. Arraste-os para o local correto de terra.");
+        }
+
+        function focusMap(index) {
+            const street = pendingStreets[index];
+            if (street.lat !== null) {
+                map.setView([street.lat, street.lng], 17);
+                street.marker.openPopup();
+            }
+        }
+
+        // Fórmula Haversine para Distância em Metros
+        function getDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371e3;
+            const p1 = lat1 * Math.PI/180;
+            const p2 = lat2 * Math.PI/180;
+            const dp = (lat2-lat1) * Math.PI/180;
+            const dl = (lon2-lon1) * Math.PI/180;
+            const a = Math.sin(dp/2) * Math.sin(dp/2) + Math.cos(p1) * Math.cos(p2) * Math.sin(dl/2) * Math.sin(dl/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c;
+        }
+
+        // Algoritmo Vizinho Mais Próximo (Nearest Neighbor TSP)
+        function calculateRoute() {
+            // Verifica se todas têm pino
+            const unmapped = pendingStreets.filter(s => s.lat === null);
+            if (unmapped.length > 0) {
+                alert(`Atenção: ${unmapped.length} ruas ainda não têm pino no mapa. Clique em 'Jogar Pinos Restantes' e posicione-os antes de calcular a rota.`);
+                return;
+            }
+
+            if(polylineLayer) map.removeLayer(polylineLayer);
+
+            let unvisited = [...pendingStreets];
+            let route = [];
+            
+            // Assume que começa pela primeira rua da lista (Paulo Freire) ou a mais ao sul.
+            // Para simplificar, começaremos pela Rua Paulo Freire (índice 0)
+            let current = unvisited.find(s => s.id === 1) || unvisited[0];
+            route.push(current);
+            unvisited = unvisited.filter(s => s.id !== current.id);
+
+            while (unvisited.length > 0) {
+                let nearest = null;
+                let minDistance = Infinity;
+
+                unvisited.forEach(candidate => {
+                    let dist = getDistance(current.lat, current.lng, candidate.lat, candidate.lng);
+                    if (dist < minDistance) {
+                        minDistance = dist;
+                        nearest = candidate;
+                    }
+                });
+
+                route.push(nearest);
+                current = nearest;
+                unvisited = unvisited.filter(s => s.id !== current.id);
+            }
+
+            // Desenhar Linha da Rota no Mapa
+            const latlngs = route.map(s => [s.lat, s.lng]);
+            polylineLayer = L.polyline(latlngs, {
+                color: '#3b82f6', 
+                weight: 4, 
+                opacity: 0.8, 
+                dashArray: '10, 10', 
+                lineJoin: 'round'
+            }).addTo(map);
+
+            map.fitBounds(polylineLayer.getBounds(), { padding: [50, 50] });
+
+            // Atualizar UI com a Ordem
+            updateUIWithRoute(route);
+        }
+
+        function updateUIWithRoute(orderedRoute) {
+            const list = document.getElementById('streetList');
+            list.innerHTML = '';
+            
+            orderedRoute.forEach((street, routeIndex) => {
+                const originalIndex = pendingStreets.findIndex(s => s.id === street.id);
+                
+                // Atualiza o Popup do mapa com a ordem
+                street.marker.bindPopup(`<b>Parada ${routeIndex + 1}</b><br>${street.name}`).update();
+
+                list.innerHTML += `
+                    <div class="street-item" style="border-left: 4px solid var(--accent-success)" onclick="focusMap(${originalIndex})">
+                        <div class="street-info">
+                            <div class="street-index" style="background: var(--accent-success); color: white;">${routeIndex + 1}</div>
+                            <span class="street-name">${street.name}</span>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            alert("Rota Otimizada Calculada! Siga a numeração na barra lateral ou a linha azul no mapa.");
+        }
+
+        // Iniciar
+        renderList();
+
+    </script>
+</body>
+</html>

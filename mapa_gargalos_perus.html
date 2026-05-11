@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dossiê Viário — Gargalos de Perus</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    :root {
+      --bg-primary:#0f1117;--bg-secondary:#1a1d27;--bg-card:#1e2230;
+      --text-primary:#f1f5f9;--text-secondary:#94a3b8;--text-muted:#64748b;
+      --accent-danger:#ef4444;--accent-warning:#f59e0b;--accent-success:#10b981;
+      --accent-blue:#3b82f6;--accent-cyan:#22d3ee;--accent-purple:#a78bfa;
+      --glass-bg:rgba(30,34,48,0.88);--glass-border:rgba(255,255,255,0.08);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',sans-serif;background:var(--bg-primary);color:var(--text-primary);height:100vh;display:flex;flex-direction:column;overflow:hidden}
+
+    header{background:var(--glass-bg);backdrop-filter:blur(20px);border-bottom:1px solid var(--glass-border);padding:14px 28px;display:flex;justify-content:space-between;align-items:center;z-index:1000}
+    .brand h1{font-family:'Outfit',sans-serif;font-size:22px;font-weight:800;background:linear-gradient(135deg,#ef4444,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .brand p{font-size:12px;color:var(--text-muted);margin-top:2px;letter-spacing:.5px}
+    .legend{display:flex;gap:16px;flex-wrap:wrap}
+    .legend-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-secondary);font-weight:500}
+    .legend-dot{width:10px;height:10px;border-radius:50%;border:2px solid rgba(255,255,255,.3)}
+    #map{flex:1;width:100%;background:var(--bg-secondary)}
+
+    /* Leaflet popups */
+    .leaflet-popup-content-wrapper{background:var(--glass-bg)!important;backdrop-filter:blur(16px)!important;border:1px solid var(--glass-border)!important;color:var(--text-primary)!important;border-radius:14px!important;box-shadow:0 12px 40px rgba(0,0,0,.6)!important;min-width:280px}
+    .leaflet-popup-tip{background:var(--glass-bg)!important;border:1px solid var(--glass-border)!important}
+    .leaflet-popup-content{margin:0!important;padding:0!important;font-family:'Inter',sans-serif!important}
+    .leaflet-control-zoom a{background:var(--glass-bg)!important;color:var(--text-primary)!important;border:1px solid var(--glass-border)!important}
+
+    .popup-card{padding:18px 20px}
+    .popup-card .popup-tag{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;padding:3px 10px;border-radius:20px;margin-bottom:10px}
+    .popup-card h3{font-family:'Outfit',sans-serif;font-size:16px;font-weight:700;margin-bottom:6px;color:#fff}
+    .popup-card .popup-desc{font-size:12px;color:var(--text-secondary);line-height:1.5;margin-bottom:12px}
+    .popup-card .time-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+    .popup-card .time-box{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:8px;padding:8px 10px;text-align:center}
+    .popup-card .time-box .time-label{font-size:9px;text-transform:uppercase;letter-spacing:.8px;color:var(--text-muted);margin-bottom:4px}
+    .popup-card .time-box .time-value{font-family:'Outfit',sans-serif;font-size:18px;font-weight:700}
+    .popup-card .time-box .time-value.good{color:var(--accent-success)}
+    .popup-card .time-box .time-value.bad{color:var(--accent-danger)}
+    .popup-card .diag{background:rgba(239,68,68,.08);border-left:3px solid var(--accent-danger);padding:8px 12px;border-radius:0 8px 8px 0;font-size:11px;color:var(--text-secondary);line-height:1.5}
+    .popup-card .diag strong{color:var(--accent-danger)}
+
+    /* Pulsing markers */
+    @keyframes pulse-ring{0%{transform:scale(1);opacity:1}70%{transform:scale(2.5);opacity:0}100%{transform:scale(1);opacity:0}}
+    .pulse-marker{position:relative}
+    .pulse-marker .ring{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:16px;height:16px;border-radius:50%;animation:pulse-ring 2s ease-out infinite}
+    .pulse-marker .dot{width:16px;height:16px;border-radius:50%;border:2.5px solid #fff;position:relative;z-index:2;box-shadow:0 2px 8px rgba(0,0,0,.5)}
+
+    /* Central hub marker (estação) */
+    @keyframes hub-pulse{0%{transform:scale(1);opacity:.7}50%{transform:scale(1.8);opacity:0}100%{transform:scale(1);opacity:0}}
+    .hub-marker{position:relative;display:flex;align-items:center;justify-content:center}
+    .hub-marker .hub-ring-1{position:absolute;width:36px;height:36px;border-radius:50%;border:2px solid #f59e0b;animation:hub-pulse 2.5s ease-out infinite}
+    .hub-marker .hub-ring-2{position:absolute;width:36px;height:36px;border-radius:50%;border:2px solid #f59e0b;animation:hub-pulse 2.5s ease-out infinite .8s}
+    .hub-marker .hub-dot{width:22px;height:22px;border-radius:50%;background:#f59e0b;border:3px solid #fff;position:relative;z-index:2;box-shadow:0 0 16px rgba(245,158,11,.6),0 2px 8px rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#000}
+
+    /* Info panel */
+    .info-panel{position:absolute;bottom:24px;left:24px;z-index:1000;background:var(--glass-bg);backdrop-filter:blur(16px);border:1px solid var(--glass-border);border-radius:14px;padding:16px 20px;max-width:320px;box-shadow:0 8px 30px rgba(0,0,0,.4)}
+    .info-panel h4{font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;margin-bottom:6px;color:var(--accent-warning)}
+    .info-panel p{font-size:11px;color:var(--text-secondary);line-height:1.6}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <h1>🚨 Dossiê Viário — Perus</h1>
+      <p>7 pontos críticos · Ponto central: Estação Perus</p>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div>Colapso / Gargalo</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div>Hub Central (Estação)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#f97316"></div>Via Saturada</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#10b981"></div>Rodoanel (Rápido)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#a78bfa"></div>Ponta do Viaduto</div>
+    </div>
+  </header>
+  <div id="map"></div>
+  <div class="info-panel">
+    <h4>💡 Como usar</h4>
+    <p>Clique em cada marcador para ver o <strong>diagnóstico de engenharia</strong>. Todas as linhas convergem para a <strong>Estação Perus</strong> — o ponto central do sistema viário.</p>
+  </div>
+
+  <script>
+    // === MAPA (tiles estilo Google Maps) ===
+    const map = L.map('map', { zoomControl: true }).setView([-23.4100, -46.7500], 15);
+
+    // Tile layer estilo Google Maps (OpenStreetMap padrão colorido)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors',
+      maxZoom: 19
+    }).addTo(map);
+
+    // === PONTO CENTRAL: Estação Perus ===
+    const HUB = { lat: -23.405036, lng: -46.753072 };
+
+    // Hub icon (marcador grande pulsante amarelo)
+    const hubIcon = L.divIcon({
+      className: 'hub-marker',
+      html: '<div class="hub-ring-1"></div><div class="hub-ring-2"></div><div class="hub-dot">🚉</div>',
+      iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -20]
+    });
+
+    const hubMarker = L.marker([HUB.lat, HUB.lng], { icon: hubIcon, zIndexOffset: 1000 }).addTo(map);
+    hubMarker.bindPopup(`
+      <div class="popup-card">
+        <span class="popup-tag" style="background:rgba(245,158,11,.15);color:#f59e0b">HUB CENTRAL</span>
+        <h3>Estação Perus / Pç. Inácio Dias</h3>
+        <div class="popup-desc">Passagens de Nível CPTM — Linha 7-Rubi.<br>Ponto de convergência de todos os eixos viários do distrito.</div>
+        <div class="time-grid">
+          <div class="time-box"><div class="time-label">Cancela Aberta</div><div class="time-value good">2 min</div></div>
+          <div class="time-box"><div class="time-label">Horário de Pico</div><div class="time-value bad">30–40 min</div></div>
+        </div>
+        <div class="diag"><strong>Diagnóstico:</strong> <strong>Interrupção de Fluxo Absoluta.</strong> Trens a cada 3–6 min no pico. Cancelas mais tempo abaixadas que levantadas. Rua estreita sem <strong>taxa de descarga</strong> suficiente para esvaziar a fila antes do próximo trem.</div>
+      </div>
+    `, { maxWidth: 340 });
+
+    // === PONTOS SATÉLITE (todos conectam ao hub) ===
+    function createPulseIcon(color) {
+      return L.divIcon({
+        className: 'pulse-marker',
+        html: '<div class="ring" style="background:'+color+'"></div><div class="dot" style="background:'+color+'"></div>',
+        iconSize: [16, 16], iconAnchor: [8, 8], popupAnchor: [0, -12]
+      });
+    }
+
+    const satellites = [
+      {
+        name: 'Viaduto Central',
+        subtitle: 'Dona Mora Guimarães / Ulysses Guimarães',
+        lat: -23.404798, lng: -46.750798,
+        color: '#ef4444', tag: 'COLAPSO CRÍTICO', tagBg: 'rgba(239,68,68,.15)', tagColor: '#ef4444',
+        lineColor: '#ef4444',
+        desc: 'Eixo espinha dorsal. Conecta Av. Dr. Sylvio de Campos → Av. Com. Fiorelli Peccicacco. ~800m.',
+        timeFree: '3–5 min', timePeak: '45–60 min',
+        diag: 'Colapso da relação <strong>Volume/Capacidade (V/C)</strong>. 100% da matriz de viagens interbairros concentrada. Esquinas não suportam o <strong>raio de giro</strong> dos ônibus articulados — cada manobra trava as duas faixas.'
+      },
+      {
+        name: 'Av. Dr. Sylvio de Campos',
+        subtitle: 'Acesso Perus Novo / Rodovias',
+        lat: -23.406929, lng: -46.759704,
+        color: '#a78bfa', tag: 'PONTA DO VIADUTO', tagBg: 'rgba(167,139,250,.15)', tagColor: '#a78bfa',
+        lineColor: '#a78bfa',
+        desc: 'Extremidade oeste do Viaduto Central. Entrada/saída para Perus Novo e rodovias.',
+        timeFree: '—', timePeak: '—',
+        diag: 'Interseção crítica na <strong>ponta do viaduto</strong>. Conflito entre fluxo do viaduto e tráfego local. Geometria insuficiente para veículos pesados e ônibus articulados.'
+      },
+      {
+        name: 'Av. Com. Fiorelli Peccicacco',
+        subtitle: 'Perus Velho / Centro Comercial',
+        lat: -23.404866, lng: -46.743850,
+        color: '#a78bfa', tag: 'PONTA DO VIADUTO', tagBg: 'rgba(167,139,250,.15)', tagColor: '#a78bfa',
+        lineColor: '#a78bfa',
+        desc: 'Extremidade leste do Viaduto Central. Acesso ao centro comercial de Perus Velho.',
+        timeFree: '—', timePeak: '—',
+        diag: 'Ponto de <strong>descarga do viaduto</strong>. Todo o fluxo concentrado desemboca aqui, sobrecarregando interseções locais e retroalimentando o congestionamento.'
+      },
+      {
+        name: 'Rua Antônio Maia',
+        subtitle: 'Carrossel CET — Labirinto Local',
+        lat: -23.406441, lng: -46.755504,
+        color: '#f97316', tag: 'TORTUOSIDADE EXTREMA', tagBg: 'rgba(249,115,22,.15)', tagColor: '#f97316',
+        lineColor: '#f97316',
+        desc: 'Rua residencial em mão única (CET). Distância real: 200m.',
+        timeFree: '1 min', timePeak: '15–20 min',
+        diag: '<strong>Índice de Tortuosidade extremo.</strong> Volta obrigatória no quarteirão. Ruas com 6m e carros nos dois lados operam como funis. Apenas <strong>esconde a fila</strong> do viaduto nos bairros.'
+      },
+      {
+        name: 'Rua Padre Manoel Campello',
+        subtitle: 'Carrossel CET — Labirinto Local',
+        lat: -23.405835, lng: -46.757607,
+        color: '#f97316', tag: 'TORTUOSIDADE EXTREMA', tagBg: 'rgba(249,115,22,.15)', tagColor: '#f97316',
+        lineColor: '#f97316',
+        desc: 'Via residencial estreita usada como desvio do viaduto.',
+        timeFree: '1 min', timePeak: '15–20 min',
+        diag: 'Ruas residenciais absorvendo tráfego <strong>não projetado</strong> para elas. Distribuição do engarrafamento não resolve — transfere o problema para área residencial.'
+      },
+      {
+        name: 'Acesso Rodoanel / Av. Raimundo',
+        subtitle: 'Rodoanel Mário Covas — Praça Raimundo Magalhães',
+        lat: -23.422481, lng: -46.748486,
+        color: '#10b981', tag: 'BARREIRA FINANCEIRA', tagBg: 'rgba(16,185,129,.15)', tagColor: '#10b981',
+        lineColor: '#10b981',
+        desc: 'Acesso ao Rodoanel Trecho Oeste km 00. Sem semáforos, fluxo livre.',
+        timeFree: '10–15 min', timePeak: '10–15 min',
+        diag: 'Falha por <strong>Toll Diversion</strong>. Tarifa ~R$3,50. Em região periférica, pedágio diário compromete renda familiar. Milhares de carros de Franco da Rocha/Caieiras fogem do Rodoanel e <strong>invadem a Av. Raimundo</strong>, saturando Perus. Rodoanel rápido e vazio; bairro engasga embaixo.'
+      }
+    ];
+
+    // Render satellites + connection lines to hub
+    satellites.forEach(p => {
+      // Connection line to hub
+      L.polyline(
+        [[HUB.lat, HUB.lng], [p.lat, p.lng]],
+        { color: p.lineColor, weight: 2.5, opacity: 0.5, dashArray: '6,8' }
+      ).addTo(map);
+
+      // Marker
+      const icon = createPulseIcon(p.color);
+      const marker = L.marker([p.lat, p.lng], { icon }).addTo(map);
+
+      let timeGrid = '';
+      if (p.timeFree !== '—') {
+        timeGrid = '<div class="time-grid">' +
+          '<div class="time-box"><div class="time-label">Fluxo Livre</div><div class="time-value good">'+p.timeFree+'</div></div>' +
+          '<div class="time-box"><div class="time-label">Horário de Pico</div><div class="time-value bad">'+p.timePeak+'</div></div>' +
+        '</div>';
+      }
+
+      marker.bindPopup(
+        '<div class="popup-card">' +
+          '<span class="popup-tag" style="background:'+p.tagBg+';color:'+p.tagColor+'">'+p.tag+'</span>' +
+          '<h3>'+p.name+'</h3>' +
+          '<div class="popup-desc">'+p.subtitle+'<br>'+p.desc+'</div>' +
+          timeGrid +
+          '<div class="diag"><strong>Diagnóstico:</strong> '+p.diag+'</div>' +
+        '</div>',
+        { maxWidth: 340 }
+      );
+    });
+  </script>
+</body>
+</html>

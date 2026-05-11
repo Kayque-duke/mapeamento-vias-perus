@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposta 3351 - Viaduto Perus</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0f1117;
+            --glass-bg: rgba(30, 34, 48, 0.85);
+            --accent-success: #10b981; /* Verde - Nova Alça */
+            --accent-info: #3b82f6; /* Azul - BRT */
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: white;
+            overflow: hidden;
+        }
+        #map {
+            width: 100vw;
+            height: 100vh;
+        }
+        .hud-panel {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 380px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 24px;
+            margin: 0 0 15px 0;
+            letter-spacing: -0.5px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+        .color-box {
+            width: 24px;
+            height: 6px;
+            border-radius: 3px;
+            margin-right: 12px;
+        }
+        .btn-capture {
+            margin-top: 20px;
+            width: 100%;
+            padding: 12px;
+            background: var(--accent-success);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: opacity 0.2s;
+        }
+        .btn-capture:hover { opacity: 0.8; }
+        
+        /* Tema escuro para o mapa Leaflet */
+        .leaflet-layer,
+        .leaflet-control-zoom-in,
+        .leaflet-control-zoom-out,
+        .leaflet-control-attribution {
+            filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hud-panel">
+        <h1>Proposta 3351: Macro-Segregação</h1>
+        <p style="color: #94a3b8; font-size: 13px; margin-bottom: 20px; line-height: 1.5;">
+            Visualização da reengenharia de fluxo. A separação dos modais eleva o Nível de Serviço de "F" para "C".
+        </p>
+        
+        <div class="legend-item">
+            <div class="color-box" style="background: var(--accent-info);"></div>
+            <div>
+                <strong>Corredor Exclusivo SPTrans</strong><br>
+                <span style="color: #94a3b8; font-size: 12px;">Veículos pesados e transporte em massa</span>
+            </div>
+        </div>
+        
+        <div class="legend-item">
+            <div class="color-box" style="background: #39ff14; box-shadow: 0 0 8px #39ff14;"></div>
+            <div>
+                <strong>Nova Alça de Acesso (Desvio)</strong><br>
+                <span style="color: #94a3b8; font-size: 12px;">Ligação direta para R. Padre Manoel Campello</span>
+            </div>
+        </div>
+
+        <button class="btn-capture" onclick="hideHUD()">Esconder Painel para Capturar Tela</button>
+    </div>
+
+    <div id="map"></div>
+
+    <script>
+        // 1. Inicializar Mapa focado no Viaduto de Perus
+        const map = L.map('map', {
+            zoomControl: false // escondemos para ficar limpo
+        }).setView([-23.4026, -46.7533], 16);
+
+        // 2. Adicionar TileLayer (OpenStreetMap)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // 3. Desenhar a Rota Atual (Corredor de Ônibus - Azul)
+        // Traçado do viaduto atual passando sobre a linha do trem e caindo na Antônio Maia
+        const rotaOnibus = [
+            [-23.4055, -46.7570], // Início subida Praça Inácia Dias
+            [-23.4040, -46.7550], // Corpo do viaduto
+            [-23.4026, -46.7533], // Meio do viaduto sobre a linha
+            [-23.4015, -46.7510], // Descida
+            [-23.4005, -46.7485]  // R. Antônio Maia
+        ];
+
+        const linhaOnibus = L.polyline(rotaOnibus, {
+            color: '#3b82f6',
+            weight: 8,
+            opacity: 0.8,
+            lineJoin: 'round'
+        }).addTo(map);
+
+        linhaOnibus.bindTooltip("Corredor Exclusivo SPTrans", {permanent: true, direction: 'right', className: 'custom-tooltip'});
+
+        // 4. Desenhar a PROPOSTA 3351 (Nova Alça - Verde Limão Brilhante)
+        // Puxando do meio do viaduto e curvando para a Padre Manoel Campello
+        const rotaNovaAlca = [
+            [-23.4026, -46.7533], // Bifurcação no meio do viaduto atual
+            [-23.4018, -46.7530], // Início da nova curva aérea
+            [-23.4005, -46.7535], // Curva acentuada
+            [-23.3990, -46.7540]  // Queda na Rua Padre Manoel Campello
+        ];
+
+        const linhaNovaAlca = L.polyline(rotaNovaAlca, {
+            color: '#39ff14', // Verde limão forte
+            weight: 10,
+            opacity: 1,
+            lineJoin: 'round',
+            dashArray: '15, 10' // Linha tracejada para indicar que é um projeto/construção
+        }).addTo(map);
+
+        linhaNovaAlca.bindTooltip("PROPOSTA 3351: Nova Alça", {permanent: true, direction: 'left', className: 'custom-tooltip'});
+
+        // Animação da linha tracejada (efeito de fluxo)
+        let dashOffset = 0;
+        setInterval(() => {
+            dashOffset -= 1;
+            linhaNovaAlca.setStyle({ dashOffset: dashOffset.toString() });
+        }, 50);
+
+        // Função para esconder o painel na hora do print
+        function hideHUD() {
+            document.querySelector('.hud-panel').style.display = 'none';
+            // Restaura após 5 segundos
+            setTimeout(() => {
+                document.querySelector('.hud-panel').style.display = 'block';
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

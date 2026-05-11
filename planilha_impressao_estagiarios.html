@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Levantamento - Ruas de Terra (Estagiários) - AGRUPADO</title>
+    <style>
+        /* Estilos do Mestre (Genius Word Master) focados 100% em Impressão e exportação para Word */
+        
+        @page {
+            size: A4 landscape;
+            margin: 1cm;
+        }
+
+        body {
+            font-family: 'Calibri', 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            color: black;
+            background-color: white;
+        }
+
+        .instrucoes-tela {
+            background-color: #fff3cd;
+            color: #856404;
+            padding: 15px;
+            border: 1px solid #ffeeba;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        @media print {
+            .instrucoes-tela { display: none !important; }
+            body { padding: 0; }
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+        }
+
+        th, td {
+            border: 1px solid #000000;
+            padding: 5px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        /* Título Principal */
+        .titulo-principal {
+            background-color: #b4c6e7;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        /* Cabeçalho das colunas */
+        th.cabecalho-coluna {
+            background-color: #b4c6e7;
+            font-weight: bold;
+        }
+
+        /* Linha Mestre Agrupadora (Estilo Word Avançado) */
+        tr.grupo-header td {
+            background-color: #d9e1f2; /* Azul um pouco mais claro que o cabeçalho */
+            font-weight: bold;
+            font-size: 12px;
+            text-align: left;
+            padding-left: 10px;
+            text-transform: uppercase;
+        }
+
+        /* Alinhamento de colunas específicas */
+        td.endereco {
+            text-align: left;
+            font-weight: bold;
+        }
+
+        td.observacao {
+            text-align: left;
+            color: #c00000;
+            font-style: italic;
+        }
+
+        /* Linhas zebradas dentro do grupo */
+        tbody tr:nth-child(even) td {
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="instrucoes-tela">
+        <strong>🧠 MODO GENIUS DATA ANALYST + WORD MASTER ATIVADO</strong><br>
+        Excelente clusterização! Os estagiários agora possuem a rota agrupada logisticamente.<br>
+        <strong>Opção 1 (Imprimir Chrome):</strong> Pressione <b>Ctrl + P</b>, escolha "Paisagem" e imprima.<br>
+        <strong>Opção 2 (Word):</strong> Pressione <b>Ctrl + A</b>, <b>Ctrl + C</b> e cole (<b>Ctrl + V</b>) em um Word em Paisagem. A estrutura dos Grupos ficará perfeita!
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th colspan="10" class="titulo-principal">Levantamento de Vistoria Estratégica - Ruas Pendentes (Agrupamento Logístico)</th>
+            </tr>
+            <tr>
+                <th class="cabecalho-coluna">Setor/Região</th>
+                <th class="cabecalho-coluna">Ordem de<br>Prioridade</th>
+                <th class="cabecalho-coluna">Endereço</th>
+                <th class="cabecalho-coluna">Altura</th>
+                <th class="cabecalho-coluna">Metragem</th>
+                <th class="cabecalho-coluna">Zona Especial<br>(ZEPAM)?</th>
+                <th class="cabecalho-coluna">Zonas de Preservação<br>(ZPDS)?</th>
+                <th class="cabecalho-coluna">Possui<br>declive/aclive?</th>
+                <th class="cabecalho-coluna">Possui<br>drenagem?</th>
+                <th class="cabecalho-coluna">Observações<br>Importantes</th>
+            </tr>
+        </thead>
+
+        <!-- GRUPO 1 -->
+        <tbody>
+            <tr class="grupo-header">
+                <td colspan="10">📍 GRUPO 1: Loteamento Botânico (Maior Volume - 11 Vistorias Consecutivas)</td>
+            </tr>
+            <tr><td>Loteamento Botânico</td><td>2</td><td class="endereco">Rua 1 - AMEIXA DA MATA</td><td></td><td>818</td><td>NÃO</td><td>NÃO</td><td>ACLIVE</td><td>NÃO</td><td class="observacao">EM TERRA</td></tr>
+            <tr><td>Loteamento Botânico</td><td>2</td><td class="endereco">Rua 2 - ARAÇA DA SERRA</td><td></td><td>192</td><td>NÃO</td><td>NÃO</td><td>ACLIVE</td><td>NÃO</td><td class="observacao">EM TERRA</td></tr>
+            <tr><td>Loteamento Botânico</td><td>2</td><td class="endereco">Rua 3 - BABOSA BRANCA</td><td></td><td>107</td><td>NÃO</td><td>NÃO</td><td>ACLIVE</td><td>NÃO</td><td class="observacao">EM TERRA</td></tr>
+            <tr><td>Loteamento Botânico</td><td>2</td><td class="endereco">Rua 4-8-1 CANEL AMARELA</td><td></td><td>729</td><td>NÃO</td><td>NÃO</td><td>ACLIVE</td><td>NÃO</td><td class="observacao">EM TERRA</td></tr>
+            <tr><td>Loteamento Botânico</td><td>2</td><td class="endereco">Rua 5 - 6 - CEREJA DO MATO</td><td></td><td>288,5</td><td>NÃO</td><td>NÃO</td><td>ACLIVE</td><td>NÃO</td><td class="observacao">EM TERRA</td></tr>
+            <tr><td>Loteamento Botânico</td><td>2</td><td class="endereco">Rua 7 FIGUEIRA BRANCA</td><td></td><td>408</td><td>NÃO</td><td>NÃO</td><td>ACLIVE</td><td>NÃO</td><td class="observacao">EM TERRA</td></tr>
+            <tr><td>Loteamento Botânico</td><td>2</td><td class="endereco">Rua 9 - LOURO CRAVO</td><td></td><td>44</td><td>NÃO</td><td>NÃO</td><td>ACLIVE</td><td>NÃO</td><td class="observacao">EM TERRA</td></tr>
+            <tr><td>Loteamento Botânico</td><td>2</td><td class="endereco">Rua 10 PALMITO JUSSARA</td><td></td><td>296,5</td><td>NÃO</td><td>NÃO</td><td>ACLIVE</td><td>NÃO</td><td class="observacao">EM TERRA</td></tr>
+            <tr><td>Loteamento Botânico</td><td>2</td><td class="endereco">RUA 11 PEROBA AMAREÇA</td><td></td><td>52</td><td>NÃO</td><td>NÃO</td><td>ACLIVE</td><td>NÃO</td><td class="observacao">EM TERRA</td></tr>
+            <tr><td>Loteamento Botânico</td><td>2</td><td class="endereco">Rua 13-14 PESSEGUEIRO BRAVO -</td><td></td><td>287</td><td>NÃO</td><td>NÃO</td><td>ACLIVE</td><td>NÃO</td><td class="observacao">EM TERRA</td></tr>
+            <tr><td>Loteamento Botânico</td><td>2</td><td class="endereco">Rua 15 PINHEIRO AMARICANO</td><td></td><td>205</td><td>NÃO</td><td>NÃO</td><td>ACLIVE</td><td>NÃO</td><td class="observacao">EM TERRA</td></tr>
+        </tbody>
+
+        <!-- GRUPO 2 -->
+        <tbody>
+            <tr class="grupo-header">
+                <td colspan="10">📍 GRUPO 2: Eixo Sítio Botuquara / Estrada do Mestre (Terra com fresa)</td>
+            </tr>
+            <tr><td>Sítio Botuquara</td><td>1</td><td class="endereco">RUA DA SERVIDÃO PUBLICA</td><td></td><td>180</td><td>NÃO</td><td>NÃO</td><td>ACLIVE</td><td>NÃO</td><td class="observacao">TERRA COM FRESA</td></tr>
+            <tr><td>Sítio Botuquara</td><td>2</td><td class="endereco">RUA DONA NERCI</td><td>terra c/</td><td></td><td>NÃO</td><td>NÃO</td><td>ACLIVE</td><td>NÃO</td><td class="observacao">TERRA COM FRESA</td></tr>
+            <tr><td>Sítio Botuquara</td><td>2</td><td class="endereco">RUA RONALDO</td><td></td><td>116,48</td><td>NÃO</td><td>NÃO</td><td>ACLIVE</td><td>NÃO</td><td class="observacao">TERRA COM FRESA</td></tr>
+            <tr><td>Sítio Botuquara</td><td>2</td><td class="endereco">Rua DONA OLIVIA</td><td></td><td>200</td><td>NÃO</td><td>NÃO</td><td>ACLIVE</td><td>NÃO</td><td class="observacao">TERRA COM FRESA</td></tr>
+        </tbody>
+
+        <!-- GRUPO 3 -->
+        <tbody>
+            <tr class="grupo-header">
+                <td colspan="10">📍 GRUPO 3: Eixo Jardim Jaraguá (Sul/Central de Perus)</td>
+            </tr>
+            <tr><td>Jardim Jaraguá</td><td>2</td><td class="endereco">RUA ZUMBI DOS PALMARES</td><td></td><td>150</td><td>NÃO</td><td>NÃO</td><td>ACLIVE</td><td>NÃO</td><td class="observacao">TERRA COM FRESA</td></tr>
+            <tr><td>Jardim Jaraguá</td><td>6</td><td class="endereco">Mar das Flores</td><td></td><td>86</td><td>NÃO</td><td>NÃO</td><td>NÃO</td><td>NÃO</td><td class="observacao">TERRA COM FRESA</td></tr>
+            <tr><td>Jardim Jaraguá</td><td>8</td><td class="endereco">Rua Golfo do Alaska</td><td></td><td>30</td><td>NÃO</td><td>NÃO</td><td>ACLIVE</td><td>NÃO</td><td class="observacao">TERRA COM FRESA</td></tr>
+            <tr><td>Jardim Jaraguá</td><td>9</td><td class="endereco">Rua Dr. Nilo Cairo</td><td></td><td>262</td><td>NÃO</td><td>NÃO</td><td>ACLIVE</td><td>NÃO</td><td class="observacao">TERRA COM FRESA</td></tr>
+        </tbody>
+
+        <!-- GRUPO 4 -->
+        <tbody>
+            <tr class="grupo-header">
+                <td colspan="10">📍 GRUPO 4: Jardim Rincão (Alta Prioridade)</td>
+            </tr>
+            <tr><td>Jardim Rincão</td><td>1</td><td class="endereco">RUA PAULO FREIRE</td><td></td><td>100</td><td>NÃO</td><td>NÃO</td><td>ACLIVE</td><td>NÃO</td><td class="observacao">TERRA COM FRESA</td></tr>
+        </tbody>
+
+        <!-- EXTRAS / OUTROS -->
+        <tbody>
+            <tr class="grupo-header">
+                <td colspan="10">📍 VIA EXTRA (Pendente a classificar por região)</td>
+            </tr>
+            <tr><td>Região a Definir</td><td>4</td><td class="endereco">Rua Cerrado Brasileiro</td><td></td><td>104</td><td>NÃO</td><td>NÃO</td><td>ACLIVE</td><td>NÃO</td><td class="observacao">TERRA COM FRESA</td></tr>
+        </tbody>
+    </table>
+
+</body>
+</html>

@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Dossiê Técnico - Viaduto de Perus</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* CSS Variables */
+    :root {
+      --bg-primary:       #0A0A0F;
+      --bg-secondary:     #111118;
+      --bg-tertiary:      #1A1A24;
+      --bg-accent-subtle: #14141F;
+      --gold-primary:   #C9A84C;
+      --gold-light:     #E5D49B;
+      --gold-dark:      #8B7332;
+      --gold-gradient:  linear-gradient(135deg, #C9A84C 0%, #F0D78C 50%, #C9A84C 100%);
+      --text-primary:   #F5F5F7;
+      --text-secondary: #A0A0B0;
+      --text-muted:     #6B6B80;
+      --accent-crimson: #8B1A1A;
+      --accent-silver:  #C0C0D0;
+      --accent-ice:     #2A3A5C;
+      --border-subtle:  rgba(201, 168, 76, 0.15);
+      --border-medium:  rgba(201, 168, 76, 0.30);
+      --border-strong:  rgba(201, 168, 76, 0.60);
+      --border-neutral: rgba(255, 255, 255, 0.06);
+    }
+
+    /* Reset & Print Setup */
+    body {
+      margin: 0;
+      padding: 0;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      background-color: #222; /* Just for previewing in browser outside of print */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    .page {
+      width: 210mm;
+      height: 297mm;
+      padding: 22mm 24mm;
+      position: relative;
+      box-sizing: border-box;
+      page-break-after: always;
+      overflow: hidden;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5); /* Preview shadow */
+    }
+    
+    @media print {
+      body {
+        background-color: var(--bg-primary);
+        padding: 0;
+        display: block;
+      }
+      .page {
+        box-shadow: none;
+      }
+    }
+
+    .page:last-child {
+      page-break-after: auto;
+    }
+
+    .avoid-break {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    /* Cover Page Styles */
+    .cover-decoration {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(180deg, rgba(201,168,76,0.1) 0%, transparent 80%);
+      clip-path: polygon(30% 0, 100% 0, 100% 100%, 0% 100%);
+      z-index: 1;
+    }
+
+    .cover-pattern {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: 
+        linear-gradient(30deg, rgba(201,168,76,0.02) 12%, transparent 12.5%),
+        linear-gradient(150deg, rgba(201,168,76,0.02) 12%, transparent 12.5%),
+        linear-gradient(210deg, rgba(201,168,76,0.02) 12%, transparent 12.5%),
+        linear-gradient(330deg, rgba(201,168,76,0.02) 12%, transparent 12.5%);
+      background-size: 80px 140px;
+      z-index: 0;
+    }
+
+    .cover-border-accent {
+      position: absolute;
+      top: 20mm;
+      bottom: 20mm;
+      right: 20mm;
+      width: 2px;
+      background: var(--gold-gradient);
+      z-index: 2;
+    }
+
+    .cover-content {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      justify-content: center;
+    }
+
+    .cover-label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 10pt;
+      letter-spacing: 0.15em;
+      color: var(--gold-primary);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .cover-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: 46pt;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      margin: 0 0 20px 0;
+      max-width: 85%;
+    }
+
+    .cover-subtitle {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 13pt;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      max-width: 75%;
+      margin-bottom: 40px;
+    }
+
+    .divider-gold {
+      height: 3px;
+      background: var(--gold-gradient);
+      width: 80px;
+      margin: 0 0 40px 0;
+      border: none;
+      border-radius: 2px;
+    }
+
+    .cover-footer {
+      margin-top: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9pt;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid var(--border-neutral);
+      padding-top: 20px;
+    }
+
+    /* Inner Pages Styles */
+    .page-wrapper {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      position: relative;
+      z-index: 2;
+    }
+
+    .page-header-doc {
+      margin-bottom: 10mm;
+      padding-bottom: 4mm;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .page-header-doc .doc-type {
+      font-family: 'Inter', sans-serif;
+      font-size: 8pt;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: var(--accent-crimson);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .page-header-doc h1 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 800;
+      font-size: 24pt;
+      color: var(--text-primary);
+      margin: 0 0 8px 0;
+    }
+
+    .page-header-doc p {
+      font-family: 'Inter', sans-serif;
+      font-size: 10.5pt;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin: 0;
+      max-width: 90%;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 6mm;
+      margin-bottom: 4mm;
+    }
+
+    .section-number {
+      width: 36px;
+      height: 36px;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-medium);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      font-size: 12pt;
+      color: var(--gold-primary);
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 20pt;
+      color: var(--text-primary);
+      margin: 0;
+      letter-spacing: -0.02em;
+    }
+
+    .section-desc {
+      font-family: 'Inter', sans-serif;
+      font-size: 10.5pt;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-top: 0;
+      margin-bottom: 6mm;
+    }
+
+    .page-footer {
+      margin-top: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 4mm;
+      border-top: 1px solid var(--border-subtle);
+      font-size: 8pt;
+      color: var(--text-muted);
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .page-footer .page-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      color: var(--gold-primary);
+      font-size: 10pt;
+    }
+
+    /* Cards */
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 8mm;
+    }
+
+    .content-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-neutral);
+      border-radius: 12px;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .content-card-critical {
+      background: linear-gradient(135deg, rgba(139,26,26,0.15) 0%, var(--bg-secondary) 100%);
+      border: 1px solid rgba(139,26,26,0.3);
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 4px 15px rgba(139,26,26,0.1);
+    }
+
+    .card-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 7.5pt;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .card-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 24pt;
+      font-weight: 800;
+      color: var(--gold-light);
+      margin-bottom: 6px;
+      line-height: 1;
+    }
+
+    .card-value-critical {
+      color: #FF6B6B;
+    }
+
+    .card-desc {
+      font-family: 'Inter', sans-serif;
+      font-size: 8.5pt;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    /* Charts */
+    .chart-box {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-neutral);
+      border-radius: 12px;
+      padding: 20px 20px 30px 20px;
+      margin-bottom: 8mm;
+    }
+
+    .chart-title {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 10.5pt;
+      text-align: center;
+      margin-bottom: 30px;
+      color: var(--text-primary);
+    }
+
+    .bar-chart-container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 80px;
+      height: 180px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border-subtle);
+      position: relative;
+    }
+
+    .y-axis {
+      position: absolute;
+      left: 15%;
+      top: 0;
+      bottom: 20px;
+      width: 1px;
+      background: var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .y-label {
+      position: absolute;
+      left: -30px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8pt;
+      color: var(--text-muted);
+      transform: translateY(-50%);
+    }
+
+    .grid-line {
+      position: absolute;
+      left: 0;
+      right: -65vw;
+      height: 1px;
+      background: var(--border-neutral);
+      z-index: 0;
+    }
+
+    .bar-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100px;
+      z-index: 1;
+    }
+
+    .bar-label-top {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-size: 13pt;
+      margin-bottom: 10px;
+      color: var(--text-primary);
+    }
+
+    .bar {
+      width: 100%;
+      border-radius: 4px 4px 0 0;
+      box-shadow: 0 0 15px rgba(0,0,0,0.4);
+    }
+
+    .bar-label {
+      position: absolute;
+      bottom: -30px;
+      font-family: 'Inter', sans-serif;
+      font-size: 8.5pt;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    /* Section 02 Layout */
+    .grid-2-sidebar {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 15px;
+      margin-bottom: 8mm;
+    }
+
+    .sidebar-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .menu-item {
+      padding: 14px 15px;
+      border-radius: 8px;
+      border: 1px solid var(--border-neutral);
+      background: var(--bg-tertiary);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 9.5pt;
+      color: var(--text-secondary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .menu-item.active {
+      background: linear-gradient(135deg, rgba(139,26,26,0.1) 0%, var(--bg-tertiary) 100%);
+      border: 1px solid rgba(139,26,26,0.5);
+      color: var(--text-primary);
+      border-left: 3px solid var(--accent-crimson);
+    }
+
+    .menu-icon svg {
+      width: 18px;
+      height: 18px;
+      color: var(--text-muted);
+    }
+    
+    .menu-item.active .menu-icon svg {
+      color: #FFB3B3;
+    }
+
+    .detail-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-neutral);
+      border-radius: 12px;
+      padding: 24px;
+      display: flex;
+      gap: 25px;
+      align-items: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .detail-text {
+      flex: 1;
+    }
+
+    .detail-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 15pt;
+      color: var(--text-primary);
+      margin: 0 0 12px 0;
+    }
+
+    .detail-p {
+      font-family: 'Inter', sans-serif;
+      font-size: 10pt;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      margin: 0 0 15px 0;
+    }
+
+    .highlight-box {
+      background: rgba(139,26,26,0.08);
+      border-left: 3px solid var(--accent-crimson);
+      padding: 12px 14px;
+      border-radius: 0 6px 6px 0;
+      font-family: 'Inter', sans-serif;
+      font-size: 9pt;
+      color: #FFB3B3;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    .donut-chart-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .donut-chart {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: conic-gradient(var(--accent-crimson) 0% 60%, var(--bg-tertiary) 60% 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow: 0 0 25px rgba(139,26,26,0.15);
+    }
+    .donut-chart::before {
+      content: "";
+      width: 80px;
+      height: 80px;
+      background: var(--bg-secondary);
+      border-radius: 50%;
+      position: absolute;
+    }
+    .donut-label {
+      position: relative;
+      z-index: 1;
+      font-family: 'Playfair Display', serif;
+      font-weight: 800;
+      font-size: 18pt;
+      color: var(--text-primary);
+    }
+
+    .donut-legend {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-family: 'Inter', sans-serif;
+      font-size: 7.5pt;
+      color: var(--text-muted);
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .legend-color {
+      width: 12px;
+      height: 4px;
+      border-radius: 2px;
+    }
+
+    /* Flowchart Section 03 */
+    .flowchart {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 6mm;
+      position: relative;
+      padding: 0 10px;
+    }
+    
+    .flowchart::before {
+      content: "";
+      position: absolute;
+      top: 40px; /* Aligned with center of icons roughly */
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: var(--border-medium);
+      z-index: 0;
+    }
+
+    .flow-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-neutral);
+      border-radius: 10px;
+      padding: 15px 12px;
+      width: 130px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .flow-card-critical {
+      background: linear-gradient(180deg, var(--bg-secondary) 0%, rgba(139,26,26,0.1) 100%);
+      border: 1px solid rgba(139,26,26,0.3);
+      border-radius: 10px;
+      padding: 15px 12px;
+      width: 130px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 5px 20px rgba(139,26,26,0.15);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .flow-icon {
+      margin-bottom: 12px;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-subtle);
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .flow-icon svg {
+      color: var(--gold-primary);
+      width: 20px;
+      height: 20px;
+    }
+
+    .flow-card-critical .flow-icon {
+      background: rgba(139,26,26,0.1);
+      border-color: rgba(139,26,26,0.3);
+    }
+    
+    .flow-card-critical .flow-icon svg {
+      color: #FF6B6B;
+    }
+
+    .flow-title {
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 8.5pt;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    .flow-desc {
+      font-family: 'Inter', sans-serif;
+      font-size: 7.5pt;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    .flow-arrow {
+      color: var(--border-strong);
+      font-size: 14pt;
+      z-index: 1;
+      background: var(--bg-primary);
+      padding: 0 4px;
+      margin-top: -50px; /* Align with the line */
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- PAGE 1: CAPA -->
+  <div class="page cover-page">
+    <div class="cover-pattern"></div>
+    <div class="cover-decoration"></div>
+    <div class="cover-border-accent"></div>
+    
+    <div class="cover-content">
+      <div class="divider-gold"></div>
+      <h1 class="cover-title">Colapso Viário:<br>Eixo Estação Perus ↔ Rodoanel</h1>
+      <p class="cover-subtitle">Diagnóstico técnico baseado em bases de dados de engenharia de tráfego, evidenciando falhas estruturais críticas no Viaduto Deputado Ulisses Guimarães e seu entorno.</p>
+    </div>
+
+    <div class="cover-footer">
+      <span>AUTORIA: ENGENHARIA E MOBILIDADE URBANA</span>
+      <span>SÃO PAULO, SP</span>
+      <span>REF. TÉCNICA Nº 2026/042</span>
+    </div>
+  </div>
+
+  <!-- PAGE 2: CONTEÚDO -->
+  <div class="page">
+    <div class="page-wrapper">
+      
+      <div class="page-header-doc">
+        <div class="doc-type">Laudo Técnico de Infraestrutura</div>
+        <h1>Diagnóstico de Capacidade Viária</h1>
+        <p>Análise detalhada do fluxo, geometria e nível de serviço no Eixo Estação Perus e Viaduto Dep. Ulisses Guimarães.</p>
+      </div>
+
+      <!-- SECTION 01 -->
+      <div class="section-header">
+        <div class="section-number">01</div>
+        <h2 class="section-title">A Rota do Sangramento</h2>
+      </div>
+      <p class="section-desc">A viagem atual é tortuosa e ineficiente. Veja o impacto direto na vida do cidadão que tenta acessar o Rodoanel Mário Covas a partir do centro do bairro.</p>
+
+      <div class="grid-4">
+        <div class="content-card">
+          <div class="card-label">Distância Física</div>
+          <div class="card-value">5.8<span style="font-size: 12pt; color: var(--text-secondary);"> a 6.5 km</span></div>
+          <div class="card-desc">Via Sylvio de Campos ou Fiorelli Peccicacco</div>
+        </div>
+        <div class="content-card">
+          <div class="card-label">Velocidade no Pico</div>
+          <div class="card-value" style="color: var(--gold-primary);">8 - 10 <span style="font-size: 12pt;">km/h</span></div>
+          <div class="card-desc">Mobilidade severamente comprometida</div>
+        </div>
+        <div class="content-card">
+          <div class="card-label">Tempo Perdido/Dia</div>
+          <div class="card-value" style="color: #FFB3B3;">~1 <span style="font-size: 12pt;">Hora</span></div>
+          <div class="card-desc">30 min extras por viagem</div>
+        </div>
+        <div class="content-card-critical">
+          <div class="card-label" style="color: #FF8080;">Impacto Mensal</div>
+          <div class="card-value card-value-critical">20 <span style="font-size: 12pt;">Horas</span></div>
+          <div class="card-desc" style="color: #FFB3B3;">Jogadas fora no trânsito</div>
+        </div>
+      </div>
+
+      <div class="chart-box avoid-break">
+        <div class="chart-title" style="color: #FFB3B3; font-size: 11.5pt;">Comprovação do Atraso (Estação → Rodoanel)</div>
+        <div class="bar-chart-container">
+          <div class="y-axis">
+            <div class="y-label" style="top: 0%">45</div>
+            <div class="grid-line" style="top: 0%"></div>
+            <div class="y-label" style="top: 33%">30</div>
+            <div class="grid-line" style="top: 33%"></div>
+            <div class="y-label" style="top: 66%">15</div>
+            <div class="grid-line" style="top: 66%"></div>
+            <div class="y-label" style="top: 100%">0</div>
+            <div class="grid-line" style="top: 100%"></div>
+            <div style="position: absolute; left: -45px; top: 50%; transform: translateY(-50%) rotate(-90deg); font-family: 'Inter', sans-serif; font-size: 8pt; color: var(--text-muted); letter-spacing: 0.1em;">MINUTOS</div>
+          </div>
+
+          <div class="bar-item">
+            <div class="bar-label-top">12 min</div>
+            <div class="bar" style="height: 26%; background: var(--accent-ice);"></div>
+            <div class="bar-label">Fluxo Livre (Madrugada)</div>
+          </div>
+          
+          <div class="difference-indicator" style="position: absolute; left: 50%; top: 40%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; gap: 8px; z-index: 5;">
+             <div style="background: linear-gradient(135deg, rgba(139,26,26,0.3) 0%, rgba(139,26,26,0.1) 100%); border: 1px solid var(--accent-crimson); color: #FFB3B3; padding: 8px 16px; border-radius: 20px; font-family: 'JetBrains Mono', monospace; font-size: 11pt; font-weight: 700; white-space: nowrap; box-shadow: 0 4px 15px rgba(139,26,26,0.3); backdrop-filter: blur(4px);">
+                Atraso: +30 Minutos
+             </div>
+             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#FFB3B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="filter: drop-shadow(0 2px 5px rgba(139,26,26,0.5));"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </div>
+
+          <div class="bar-item">
+            <div class="bar-label-top" style="color: #FF6B6B;">42 min</div>
+            <div class="bar" style="height: 93%; background: var(--accent-crimson);"></div>
+            <div class="bar-label">Horário de Pico</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="page-footer">
+      <span>Dossiê Viaduto Perus</span>
+      <span class="page-num">01</span>
+    </div>
+  </div>
+
+  <!-- PAGE 3: CONTEÚDO PARTE 2 -->
+  <div class="page">
+    <div class="page-wrapper">
+      
+      <!-- SECTION 02 -->
+      <div class="section-header">
+        <div class="section-number">02</div>
+        <h2 class="section-title">A Condenação do Viaduto</h2>
+      </div>
+      <p class="section-desc">O Viaduto Deputado Ulisses Guimarães sofre de "Colapso Geométrico". Explore os gargalos matemáticos identificados pelos satélites e bases de engenharia.</p>
+
+      <div class="grid-2-sidebar avoid-break">
+        <div class="sidebar-menu">
+          <div class="menu-item active">
+            <span>Falha C: Saturação LOS</span>
+            <span class="menu-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-4"/></svg>
+            </span>
+          </div>
+          <div class="menu-item">
+            <span>Falha A: Estrangulamento</span>
+            <span class="menu-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 22h14"/><path d="M5 2h14"/><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"/><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/></svg>
+            </span>
+          </div>
+          <div class="menu-item">
+            <span>Falha B: Geometria Hostil</span>
+            <span class="menu-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z"/><path d="m14.5 12.5 2-2"/><path d="m11.5 9.5 2-2"/><path d="m8.5 6.5 2-2"/><path d="m17.5 15.5 2-2"/></svg>
+            </span>
+          </div>
+        </div>
+
+        <div class="detail-card">
+          <div class="detail-text">
+            <h3 class="detail-title">Falha C: Saturação do Nível de Serviço (LOS)</h3>
+            <p class="detail-p">Na engenharia civil, classificamos as vias de 'A' (livre) a 'F' (engarrafamento total). No pico, o Viaduto de Perus opera em <strong style="color: #FF6B6B;">Nível F (Fluxo Forçado)</strong>.</p>
+            <div class="highlight-box">
+              Não é problema de semáforo, é falta de asfalto. A demanda excede a capacidade estrutural em mais de 60%.
+            </div>
+          </div>
+          <div class="donut-chart-container">
+            <div class="donut-chart">
+              <span class="donut-label">+60%</span>
+            </div>
+            <div class="donut-legend">
+              <div class="legend-item">
+                <div class="legend-color" style="background: var(--bg-tertiary);"></div>
+                <span>Capacidade Máxima Suportada</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color" style="background: var(--accent-crimson);"></div>
+                <span style="color: #FFB3B3;">Sobrecarga (+60%)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 03 -->
+      <div class="section-header" style="margin-top: 10mm;">
+        <div class="section-number">03</div>
+        <h2 class="section-title">Metástase Viária (Micro-Gargalos)</h2>
+      </div>
+      <p class="section-desc">A falha não ocorre apenas "em cima da ponte". O gargalo se espalha pelas vias arteriais, criando um efeito dominó que trava todo o centro de Perus.</p>
+
+      <div class="flowchart avoid-break">
+        <div class="flow-card">
+          <div class="flow-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2" ry="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M12 6h.01"/><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/></svg>
+          </div>
+          <div class="flow-title">1. Entorno da Estação</div>
+          <div class="flow-desc">Conflito pesado entre pedestres, ônibus e carros. O trânsito já nasce travado na Av. Dr. Sylvio de Campos.</div>
+        </div>
+        
+        <div class="flow-arrow">▶</div>
+        
+        <div class="flow-card">
+          <div class="flow-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="16" x="4" y="3" rx="2"/><path d="M4 11h16"/><path d="M12 3v8"/><path d="m8 19-2 3"/><path d="m18 22-2-3"/><path d="M8 15h0"/><path d="M16 15h0"/></svg>
+          </div>
+          <div class="flow-title">2. Passagem de Nível</div>
+          <div class="flow-desc">Cruzamento com a Linha 7-Rubi e transporte de carga. Quando ativa, gera colapso total da malha.</div>
+        </div>
+
+        <div class="flow-arrow">▶</div>
+
+        <div class="flow-card">
+          <div class="flow-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 8v12L15 16 9 20 2 16V4l7 4 6-4 7 4z"/><path d="M9 20V8"/><path d="M15 16V4"/></svg>
+          </div>
+          <div class="flow-title">3. Viaduto Principal</div>
+          <div class="flow-desc">Estrangulamento geométrico, Nível de Serviço 'F' e incapacidade de absorver fluxo.</div>
+        </div>
+
+        <div class="flow-arrow">▶</div>
+
+        <div class="flow-card-critical">
+          <div class="flow-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19 21 5"/><path d="m3 5 7 7"/><path d="m14 16 7 7"/></svg>
+          </div>
+          <div class="flow-title" style="color: #FFB3B3;">4. Chegada no Rodoanel</div>
+          <div class="flow-desc" style="color: #FF8080;">Último gargalo. Pista de aceleração não suporta as filas de caminhões em acesso.</div>
+        </div>
+      </div>
+
+    </div>
+    <div class="page-footer">
+      <span>Dossiê Viaduto Perus</span>
+      <span class="page-num">02</span>
+    </div>
+  </div>
+
+</body>
+</html>
