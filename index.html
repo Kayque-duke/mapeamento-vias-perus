@@ -1168,6 +1168,7 @@
       transform: scale(1.15);
     }
 
+      .table-hidden { display: none !important; }
   </style>
 </head>
 <body>
@@ -1465,8 +1466,32 @@
   <script>
     // --- ESTADO DA APLICAÇÃO ---
     const API_URL = 'https://mapeamento-vias-perus.onrender.com/api';
+    function toggleTable() {
+      const tableContainer = document.getElementById('table-container');
+      const btn = document.getElementById('btn-toggle-table');
+      tableContainer.classList.toggle('table-hidden');
+      if (tableContainer.classList.contains('table-hidden')) {
+        btn.innerHTML = '➡️ Tabela';
+      } else {
+        btn.innerHTML = '⬅️ Tabela';
+      }
+      setTimeout(() => { map.invalidateSize(); }, 50);
+    }
+
+    function togglePhotos() {
+      showPhotosOnMap = !showPhotosOnMap;
+      const btn = document.getElementById('btn-toggle-photos');
+      if (showPhotosOnMap) {
+        btn.innerHTML = '👁️ Ocultar Fotos';
+      } else {
+        btn.innerHTML = '👁️ Mostrar Fotos';
+      }
+      renderMapLayers();
+    }
+
     let map;
     let streets = [];
+    let showPhotosOnMap = true;
     let mapLayers = {}; // ID -> L.Polyline/FeatureGroup
     
     // Estado de desenho
@@ -1725,7 +1750,7 @@
         }).addTo(group);
 
         // Indicador de Fotos Flutuante (Premium Pin com Preview)
-        if (street.hasPhotos && street.photoPreviewUrl) {
+        if (showPhotosOnMap && street.hasPhotos && street.photoPreviewUrl) {
           const midIndex = Math.floor(street.coords.length / 2);
           const safeNome = street.nome.replace(/'/g, "\\'");
           const photoIcon = L.divIcon({
